@@ -1,0 +1,122 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+   add novo
+{% endblock title %}
+{% block financeiro %}
+	<link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+    <script src="{% static "js/contas.js" %}"></script>
+{% endblock %}
+{% block conteudo %}
+<div class="panel panel-danger">
+	<div class="panel-heading">
+		<h3 class="panel-title text-center"><i class="fa fa-plus" aria-hidden="true"></i> CADASTRAR CONTA À PAGAR</h3>
+	</div>
+	<div class="panel-body">
+		<form action="" class="form-horizontal" method="POST">
+			{% csrf_token %}
+				<div class="form-group">
+					<label for="descricao" class="col-sm-2 control-label">{{form.descricao.label}} <i class="fa fa-pencil-square-o" aria-hidden="true"></i></label>
+					<div class="col-sm-4">
+						{{ form.descricao }}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="titulo" class="col-sm-2 control-label">{{form.vencimento.label}}  <i class="fa fa-calendar-minus-o" aria-hidden="true"></i></label>
+					
+					<div class="col-sm-4">
+					{{form.vencimento.errors}}
+						{{form.vencimento}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="valor" class="col-sm-2 control-label">{{form.valor_total.label}}  <i class="fa fa-dollar" aria-hidden="true"></i></label>
+					<div class="col-sm-4">
+						{{form.valor_total}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="forma_pagamento" class="col-sm-2 control-label">{{form.forma_pagamento.label}} <i class="fa fa-credit-card" aria-hidden="true"></i></label>
+					<div class="col-sm-4">
+						{{ form.forma_pagamento }}
+					</div>
+				</div>
+				<div id="n_parcela">
+					<div class="form-group">
+						<label for="valor" class="col-sm-2 control-label">{{form.valor_entrada.label}}  <i class="fa fa-dollar" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+							{{form.valor_entrada}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 control-label">{{form.n_parcela.label}}  <i class="fa fa-calculator" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+							{{form.n_parcela}}
+						</div>
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="id_status_pag" class="col-sm-2 control-label">{{form.status_pag.label}}  <i class="fa fa-check" aria-hidden="true"></i> </label>
+					<div class="col-sm-4">
+						{{ form.status_pag}}
+					</div>
+				</div>
+				<div class="form-group">
+					<label  class="col-sm-2 control-label">{{form.conta_fixa.label}} </label>
+					<div class="col-sm-4">
+						{{ form.conta_fixa}}
+					</div>
+				</div>
+				<div class="form-group" id="category_conta" style="display:none;">
+					<label  class="col-sm-2 control-label">{{form.categoria.label}}</label>
+					<div class="col-sm-4" >
+						{{form.categoria.errors}}
+						{{ form.categoria}} 
+					</div>
+					<a href="#" class="js-add-category"title="Adicionar Uma Nova Categoria"><i class="fa fa-plus text-success" aria-hidden="true"></i></a>
+				</div>
+				<div class="form-group">
+					<label for="descricao" class="col-sm-2 control-label">{{form.observacao.label}} <i class="fa fa-pencil" aria-hidden="true"></i></label>
+					<div class="col-sm-4">
+						{{ form.observacao }}
+					</div>
+				</div>
+				
+			<button type="submit" class="btn btn-primary">
+				<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
+			</button>
+			<a class="btn btn-success" href="/contas/pagar/"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Voltar</a>
+		</form>
+	</div>
+	<!-- Modal pra add as novas categorias de contas -->
+    <div class="modal fade" id="add-categoria-modal" >
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <form method="post" action="{% url 'categoria' %}" >
+                	{% csrf_token %}
+                    <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="modalLabel"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Uma Categoria</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container">
+						   <div class="col-md-4"> 
+								<b>Novo Tipo: </b><input type="text" name="desc" class="form-control"placeholder="Digite o Nome de Alguma Categoria">
+							</div>
+						</div>
+                    </div>
+                    <div class="modal-footer">
+                    	<button class="btn btn-success" type="submit">Cadastrar</button>
+                    	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% block js_financeiro %}
+	<script src="{% static "js/modal.js" %}"></script>
+{% endblock  %}
+{% endblock %}

@@ -1,0 +1,97 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %}
+	Sobre
+{% endblock title %}
+{% block container%}
+	
+	<div id="breadcrumb">
+		<div class="container">	
+			<div class="breadcrumb">							
+				<li><a href="index.html">Home</a></li>
+				<li>Sobre Nós</li>			
+			</div>		
+		</div>	
+	</div>
+	
+	<div class="aboutus">
+		<div class="container">
+			<h3>Nossas Informações </h3>
+			<hr>
+			<div class="col-md-7 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+				<img src="{% static "images/sample-juridico.jpg"%}" class="img-responsive">
+				<h4>Criamos, projetamos e tornamos realidade o seu pedido</h4>
+				<p> Advocacia Thiago está localizado no principal eixo empresarial da cidade de Parnaiba-PI, Av. Presidente Vargas nº 39 - 10º e 21º andares, região que mais recebe investimentos de infraestrutura, haja vista a realização de vultosos eventos internacionais, os quais serão sediados no Brasil.</p>
+				<p>
+				O Escritório ocupa dois andares especialmente modernizados para o desenvolvimento de suas atividades. Proporciona mais de 100 postos de trabalho distribuídos em cerca de 700 m2, cuja divisão por áreas de atuação e núcleos de atividades mostra-se como importante diferencial competitivo no que toca à busca pelo alinhamento ao perfil de seus clientes.</p>
+			</div>
+			<div class="col-md-5 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+				<div class="skill">
+					<h2>Estatisticas de Nossos Trabalhos </h2>
+					<p>Com base em nossos relátorios temos uma base de trabalhos concluidos ao longo desse anos .</p>
+
+					<div class="progress-wrap">
+						<h3>Trabalhista</h3>
+						<div class="progress">
+						  <div class="progress-bar  color1" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 85%">
+							<span class="bar-width">50%</span>
+						  </div>
+
+						</div>
+					</div>
+
+					<div class="progress-wrap">
+						<h4>Penal</h4>
+						<div class="progress">
+						  <div class="progress-bar color2" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 95%">
+						   <span class="bar-width">25%</span>
+						  </div>
+						</div>
+					</div>
+
+					<div class="progress-wrap">
+						<h4>Civil e Contratos</h4>
+						<div class="progress">
+						  <div class="progress-bar color3" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 80%">
+							<span class="bar-width">15%</span>
+						  </div>
+						</div>
+					</div>
+
+					<div class="progress-wrap">
+						<h4>Ações Indenizatórias</h4>
+						<div class="progress">
+						  <div class="progress-bar color4" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 30%">
+							<span class="bar-width">10%</span>
+						  </div>
+						</div>
+					</div>
+				</div>				
+			</div>
+		</div>
+	</div>
+	
+	<div class="our-team">
+		<div class="container">
+			<h3>Nossa Equipe</h3>	
+			<div class="text-center">
+				<div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms">
+					<img src="{% static "images/services/1.jpg"%}" alt="" >
+					<h4>Carla Silva</h4>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing eil sed deiusmod tempor</p>
+				</div>
+				<div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+					<img src="{% static "images/services/1.jpg"%}" alt="" >
+					<h4>Juliana Santos</h4>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing eil sed deiusmod tempor</p>
+				</div>
+				<div class="col-md-4 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="900ms">
+					<img src="{% static "images/services/1.jpg"%}" alt="" >
+					<h4>Carla Silva</h4>
+					<p>Lorem ipsum dolor sit amet consectetur adipisicing eil sed deiusmod tempor</p>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+ {%endblock%}

@@ -1,0 +1,122 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+   Sobre 
+{% endblock  %}
+{% block conteudo %}
+    <div class="row">
+        <div class="col-lg-4">
+        <h3>{{ cliente.nome }}</h3>
+              <div class="col-md-offset-3 column">
+                    
+                    {% if cliente.email %}
+                        <h5><span class="glyphicon glyphicon-envelope"></span><a href="#"> {{ cliente.email }}</a></h5>
+                    {% endif %}
+              </div>
+              </br>
+              <table class="table table-user-information">
+                    <tbody>
+                            <tr>
+                            <th class="col-md-3 text-right">Sexo</th>
+                                <td>{{ cliente.sexo}}</td>
+                            </tr>
+                            {% if cliente.nascimento %}
+                            <tr>
+                                <th class="col-md-3 text-right">Data/Nascimento</th>
+                                <td>{{ cliente.nascimento|date:"d/m/Y" }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if cliente.bairro %}
+                            <tr>
+                                <th class="col-md-3 text-right">Bairro</th>
+                                <td>{{ cliente.bairro }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if pessoa.rua%}
+                            <tr>
+                                <th class="col-md-3 text-right">Rua</th>
+                                <td>{{ cliente.rua }}</td>
+                            </tr>
+                            {% endif %}
+                            {% if cliente.cep%}
+                            <tr>
+                                <th class="col-md-3 text-right">Cep</th>
+                                <td>{{ cliente.cep}}</td>
+                            </tr>
+                            {% endif %}
+                            {% if cliente.uf%}
+                            <tr>
+                                <th class="col-md-3 text-right">Uf</th>
+                                <td>{{ cliente.uf }}</td>
+                            </tr>
+                            {% endif %}
+                            
+                    </tbody>
+                </table>
+        </div>
+        <div class="col-lg-3">
+          <h3 class="text-center">Trabalhista</h3>
+          <br> <br>
+            <table class="table table-user-information">
+            <tbody>
+            {% for t in cliente.trabalhista_set.all  %}
+                <tr>
+                    <th class="col-md-3 text-right">Ctps</th>
+                    <td>{{ t.ctps }}</td>
+                </tr>
+                    <th class="col-md-3 text-right">admissão</th>
+                    <td>{{ t.admissao }}</td>
+                </tr>
+                <tr>
+                    <th class="col-md-3 text-right">demissão</th>
+                    <td>{{ t.demissao }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Recisão</th>
+                    <td>{{ t.recisao }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Salario</th>
+                    <td>{{ t.salario }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Função</th>
+                    <td>{{ t.funcao }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Entrada  Manhã</th>
+                    <td>{{ t.entrada_manha }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Saida  Manhã</th>
+                    <td>{{ t.saida_manha }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Entrada  Tarde</th>
+                    <td>{{ t.entrada_tarde }}</td>
+                </tr>
+                    <tr>
+                    <th class="col-md-3 text-right">Saida Tarde</th>
+                    <td>{{ t.saida_tarde }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+        </div>
+        <div class="col-lg-5">
+          <h3 class="text-center">Documentos</h3>
+          <br><br>
+            <table class="table table-user-information">
+                <tbody>
+                <tr>
+                {% for d in cliente.documentos_set.all  %}
+                    <th></th>
+                    <td>{{forloop.counter}}º <a href="{{d.doc.url}}">{{ d.doc_name}}</a></td>
+                </tr>
+                 {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+       
+{% endblock %}

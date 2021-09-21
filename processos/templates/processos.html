@@ -1,0 +1,272 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Lista De Processos
+{% endblock title %}
+{% block cliente %}
+    <link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+{% endblock %}
+{% block css %}
+    <link href=" {% static "js/selects/select2.css" %}"rel="stylesheet">
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+    <script src="{% static "js/selects/select2.min.js" %}"></script>
+{% endblock %}
+
+{% block conteudo %}
+	<div class="row">
+        <div class="col-lg-12">
+        	<a href="#" class="btn btn-primary js-create-processo pull-right h2" title="Adiconar Um Processo"style="margin-left: 5px;">Adicionar Processo <i class="fa fa-plus" aria-hidden="true"></i></a>
+            <h1 class="page-header">
+            	<i class="fa fa-balance-scale fa-fw"></i> Processos 
+            </h1>
+        </div>
+    </div>
+    <div class="row"id="minhaDiv">
+        	<div class="col-md-3">
+        		<input type="radio" name="processos" id="processos1" value='ativo'checked><b> Ativo</b>
+        		<input type="radio" name="processos" id="processos2" value='invativo'><b> Inativo</b>
+                <input type="radio" name="processos" id="processos3" value='todos'><b> Todos</b>
+  			</div>	
+  			<div class="col-md-2">
+  				<input type="text" name="data_ini"data-language="pt"class="form-control"placeholder="Data Inicial" id="data_ini">
+  			</div>
+  			<div class="col-md-2">
+  				
+  				<input type="text" name="data_fin"data-language="pt"class="form-control"placeholder="Data Final"id="data_fin">
+  			</div>
+        	<div class="col-md-2">
+        		<input type="text" name="descricao" class="form-control" placeholder="Digite A Sua Pesquisa" id="descricao">
+        	</div>
+        	<div class="col-md-2">
+        		<select name="pesquisa" class="form-control" id="pesquisa">
+        			<option value='numero_processo'>Numero do processo</option>
+        			<option value='natureza'>Natureza</option>
+        			<option value='cliente'>Cliente</option>
+        			<option value='advogado'>Advogado</option>
+        		</select>
+        	</div>
+        	<div class="col-md-1">
+        		<button class="btn btn-success" type="submit" id="enviar">Filtrar</button></p>
+        	</div>
+    </div>
+	<div class="table-responsive ">
+		{% if processo %} 
+			<table class="table table-striped" cellspacing="0" cellpadding="0" id="desaparecer_table">
+				<thead>
+					<tr class="table table-bordered">
+						<th>Nº</th>
+						<th>Numero Do Processo </th>
+						<th>Data de Abertura </th>
+						<th>Comarca</th>
+						<th>Natureza</th>
+						<th class="actions">Ações <i class="fa fa-cog" aria-hidden="true"></i></th>
+					</tr>
+				</thead>
+				<tbody>
+				{% for processos in processo %}	
+					<tr>
+						<td>{{forloop.counter}}</td>
+						<td><a href="/processo/{{processos.id}}/"> {{processos.numero_processo }}</a></td>
+						<td>{{ processos.data_abertura|date:"d/m/Y"}}</td>
+						<td>{{processos.comarca }}</td>
+						<td>{{ processos.natureza}}</td>
+						<td class="actions">
+							<a class="btn btn-info btn-xs" href="/processo/atualizar/{{processos.id}}/">Atualizar</a>
+							<a class="btn btn-success btn-xs" href="/processo/{{processos.id}}/">Visualizar</a>
+							<a class="btn btn-danger btn-xs js-delete-processo" id="{{processos.id}}">Excluir</a>
+						</td>
+					</tr>
+					<!--deletar-->
+                    <div class="modal fade" id="processo-modal" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                               
+                            </div>
+                        </div>
+                    </div>
+                    <div id="filtro">
+                    </div>
+				{% endfor %}	
+				</tbody>
+			</table>
+		{% else %}
+	        <h2 class="alert alert-warning">Sem Processos Cadastrados.</h2>
+	    {% endif %}
+		<div>
+			<h3>{{ processo |length }} Processo{{ processo |length|pluralize }}</h3>
+			<h4><b>Total:</b> {{ processo.paginator.count }} Processo{{ processo.paginator.count|pluralize }}</h4>
+		</div>
+	</div>
+	
+	<!-- Modal_add_processo -->
+        <div class="modal fade"  data-backdrop="static" data-keyboard="false" id="add_processo-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+	                <form action="/processo/add/" method="POST" role="form">
+	                	{% csrf_token %}
+	                    <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="modalLabel"><i class="fa fa-balance-scale" aria-hidden="true"></i> Adicionar Um Processo</h4>
+	                    </div>
+	                    <div class="modal-body">
+	                        <div class="container">
+							    {% csrf_token %}
+							    <div class="col-md-4"> 
+								    <b>Numero do processo:</b>
+								    <input type="text" name="processo"class="form-control"onkeyup="this.value=this.value.replace(/[' ']/g,'')">
+								    <b>Cliente:</b>
+								    <select name="clientes" class="form-control input_modal">
+								    	<option value=""></option>
+								    {% for clientes in cliente %}
+	  									<option value={{clientes.id}}>{{clientes.nome }} - {{clientes.cpf}}</option>
+	  								{%endfor%}	
+	  								</select>
+	  								<b>Advogado:</b>
+	  								<select name="advogados" class="form-control input_modal">
+	  									<option value=""></option>
+	  								{% for usuarios in users %}
+	  									<option value={{usuarios.id}}>{{usuarios}}</option>
+	  								{%endfor%}
+	  								</select>
+								</div>  
+								<style type="text/css">
+									.input_modal{
+										width: 329px;
+									}
+								</style>
+							</div>
+	                    </div>
+	                    <div class="modal-footer">
+	                    	<button class="btn btn-success" type="submit">Cadastrar</button>
+	                    	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+	                    </div>
+	                </form>
+                </div>
+            </div>
+        </div>
+		<div class="col-md-12">
+			<nav class="text-center">
+				<ul class="pagination">
+					<li>
+					 	{% if processo.has_previous %}
+						<a href="?page={{ processo.previous_page_number }}" aria-label="Previous">
+							<span aria-hidden="true">&laquo;</span>
+						</a>
+						{% endif %}
+					</li>
+					{% for pg in processo.paginator.page_range %}
+			        {% if processo.number == pg %}
+			          	<li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+			        {% else %}
+			          	<li><a href="?page={{ pg }}{% if request.GET.search_box %}
+			          	&search_box={{ request.GET.search_box }}{% endif %}">{{ pg }}</a></li>
+			        {% endif %}
+			      	{% endfor %}
+					<li>
+					  {% if processo.has_next %}
+						<a href="?page={{ processo.next_page_number }}" aria-label="Next">
+							<span aria-hidden="true">&raquo;</span>
+						</a>
+						{% endif %}
+					</li>
+				</ul>
+			</nav>
+			<script type="text/javascript">
+				/*funcao que coloca os selects com buscas */
+				$('.input_modal').select2({
+  					dropdownParent: $('#add_processo-modal')
+				});
+				$("#data_ini").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+               $("#data_fin").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+			</script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                $('#enviar').click(function(){
+                    var processos = "";
+                    var data_ini = $("#data_ini").val();
+                    var data_fin = $("#data_fin").val();
+                    var pesquisa = $("#pesquisa").val();
+                    var descricao = $("#descricao").val();
+                    var resultado = "<table class='table table-striped' cellspacing='0' cellpadding='0'><thead><tr class='table table-bordered'><th>Nº</th><th>Numero Do Processo </th><th>Data de Abertura </th><th>Comarca</th><th>Natureza</th><th class='actions'>Ações <i class='fa fa-cog' aria-hidden='true'></i></th></tr></thead><tbody>";
+
+                    if($('#processos1').is(':checked')){
+
+                        processos = 'ativo'
+                    }else{
+                        if($('#processos2').is(':checked')){
+
+                            processos = 'inativo'
+                        }else{
+                            processos = 'todos'
+                        }
+                    }
+
+                    $.ajax({
+                            type: "GET",
+                            data: {
+                              'processos':processos,
+                              'data_ini': data_ini,
+                              'data_fin': data_fin,
+                              'pesquisa': pesquisa,
+                              'descricao':descricao
+                            },
+                            url: '/processo/',
+                            dataType: 'json',
+                            success: function (processo) {
+                            	$("#desaparecer_table").fadeTo("slow",0.3, function(){
+                                    $(this).remove();
+                                })
+                                $.each(processo, function(chave, valor){
+                                	resultado += "<tr><td>";
+                                    resultado += valor["pk"] + "</td> ";
+                                    resultado += "<td><a href="+ valor["pk"] +">";
+                                    resultado += valor["fields"]["numero_processo"]+"</a></td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["data_abertura"]+"</td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["comarca"]+"</td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["natureza"]+"</td>";
+                                    resultado += "<td class='actions'><a class='btn btn-info btn-xs'href='/processo/atualizar/"+ valor["pk"] +"/'>Atualizar</a> <a class='btn btn-success btn-xs'  href="+ valor["pk"] +">Visualizar</a> <a class='btn btn-danger btn-xs js-delete-processo' id="+ valor["pk"] +">Excluir</a></td></tr>"
+                                });
+                                resultado += "</tbody></table>";
+                                $("#filtro").html(resultado);
+                                jQuery(document).ready(function($){
+								  $(".js-delete-processo").click(function () {
+								   var btn = $(this);
+								    $.ajax({
+								      url: '/processo/deletar/'+btn.attr("id")+'/',
+								      type: 'get',
+								      dataType: 'json',
+								      beforeSend: function () {
+								      	jQuery.noConflict(); 
+								        $("#processo-modal").modal("show");
+								      },
+								      success: function (data) {
+								        $("#processo-modal .modal-content").html(data.html_form);
+								      }
+								    });
+								  });
+
+								});
+                                
+                            },
+                            error: function() {
+                                //inserir uma msg de erro mais elegante
+                                alert("Ocorreu um erro ao carregar os dados.");
+                            }
+                    });
+
+                });
+            });
+            </script>
+	</div>
+{% endblock conteudo %}
+{% block js_processo %}
+    <script src="{% static "js/processo.js" %}"></script>
+{% endblock js_processo %}

@@ -1,0 +1,82 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Diario
+{% endblock title %}
+{% block diario %}
+	<link href=" {% static "js/jquery-uis/jquery-ui.css" %}"rel="stylesheet">
+    <script src="{% static "js/jquery-uis/jquery-ui.js" %}" type="text/javascript"></script>
+{% endblock diario %}
+{% block conteudo %}
+	<div class="row">
+        <div class="col-lg-12">
+        	<a class="btn btn-primary  pull-right h2 js-buscas"  href="#" >
+        		<i class="fa fa-search" aria-hidden="true"> </i> Buscar No Diário
+        	</a>
+            <h1 class="page-header">
+            	<i class="fa fa-balance-scale fa-fw"></i> Diário da Justiça do Trabalho
+            </h1>
+        </div>
+    </div>
+     <div class="table-responsive ">
+       
+	<!-- Modal pra buscas no diario -->
+	<div class="modal fade" data-backdrop="static" data-keyboard="false"id="buscar-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+		        <form method="POST" action="/diario/trt22/"role="form">
+		        {% csrf_token %}
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title" id="modalLabel"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar Dados No Processo</h4>
+		            </div>
+		            <div class="modal-body">
+		              	<div class="row">
+		              		<div class="col-md-6"> 
+						        <b>Buscar No Diário:</b><input type="text"class="form-control" name='nome'>
+	                    	</div>
+	                    	<div class="col-md-6">
+	                    		<b>Data:</b><input type="text"class="form-control" name='data' id="id_date">
+	                    	</div>
+		              	</div>
+		            </div>
+		          <div class="modal-footer">
+		            <button type="submit" class="save btn btn-primary pull-right">Buscar</button>
+		          </div>
+	        	</form>
+	        </div>
+	    </div>
+	</div>	
+		<div class="col-md-12">
+			<script type="text/javascript">
+				/* mascara de data*/
+				$("#id_date").mask("99/99/9999").datepicker({
+					dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,
+					dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+				    dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+				    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+				    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+				}).datepicker("setDate", new Date());;
+				$(function () {
+				  $(".js-buscas").click(function () {
+				    $.ajax({
+				      url: '/diario/trt22/',
+				      type: 'get',
+				      dataType: 'json',
+				      beforeSend: function () {
+				        $("#buscar-modal").modal("show");
+				      },
+				      success: function (data) {
+				        $("#buscar-modal .modal-content").html(data.html_form);
+				      }
+				    });
+				  });
+
+				});
+				
+			</script>
+	</div>
+{% endblock conteudo %}
+{% block js_diario %}  
+	<script src="/static/js/diario.js"></script>
+{% endblock js_diario %}

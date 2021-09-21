@@ -1,0 +1,81 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+   add Novo
+{% endblock title %}
+{% block financeiro %}
+	<link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+{% endblock %}
+{% block conteudo %}
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title text-center">CADASTRAR CONTA À RECEBER</h3>
+		</div>
+		<div class="panel-body">
+			<form action="" class="form-horizontal" method="POST">
+				{% csrf_token %}
+					<div class="form-group">
+						<label for="criacao" class="col-sm-2 control-label">{{form.descricao.label}} <i class="fa fa-pencil-square-o" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+							{{ form.descricao }}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="titulo" class="col-sm-2 control-label">{{form.vencimento.label}}  <i class="fa fa-calendar" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+						{{form.vencimento.errors}}
+							{{form.vencimento}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="data" class="col-sm-2 control-label">{{form.valor_total.label}} $</label>
+						<div class="col-sm-4">
+							{{form.valor_total}}
+						</div>
+					</div>
+					<div class="form-group">
+						<label for="criacao" class="col-sm-2 control-label">{{form.forma_pagamento.label}} <i class="fa fa-credit-card" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+							{{ form.forma_pagamento }}
+						</div>
+					</div>
+					<div id="n_parcela">
+						<div class="form-group"id="n_parcela">
+							<label for="data" class="col-sm-2 control-label">{{form.valor_entrada.label}} $</label>
+							<div class="col-sm-4">
+								{{form.valor_entrada}}
+							</div>
+						</div>
+						<div class="form-group"id="n_parcela">
+							<label class="col-sm-2 control-label">{{form.n_parcela.label}} <i class="fa fa-calculator" aria-hidden="true"></i></label>
+							<div class="col-sm-4">
+								{{form.n_parcela}}
+							</div>
+						</div>
+					</div>
+						<div id="id_conta_fixa"></div>
+						<div class="form-group">
+							<label for="id_status_pag" class="col-sm-2 control-label">{{form.status_pag.label}} <i class="fa fa-check" aria-hidden="true"></i> </label>
+							<div class="col-sm-4">
+								{{ form.status_pag}}
+							</div>
+						</div>
+					<div class="form-group">
+						<label for="criacao" class="col-sm-2 control-label">{{form.observacao.label}} <i class="fa fa-pencil" aria-hidden="true"></i></label>
+						<div class="col-sm-4">
+							{{ form.observacao }}
+						</div>
+					</div>
+				<button type="submit" class="btn btn-primary">
+					<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
+				</button>
+				<a class="btn btn-success" href="/contas/receber/"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Voltar</a>
+			</form>
+		</div>
+	</div>
+	{% block contas_js %}
+		<script src="{% static "js/contas.js" %}"></script>
+	{% endblock contas_js %}
+{% endblock %}

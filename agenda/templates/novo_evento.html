@@ -1,0 +1,122 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+    Add Evento
+{% endblock title %}
+{# Adding select2 css #}
+{% block css %}
+    <link href=" {% static "css/calendar-style.css" %}"rel="stylesheet">
+    <link href=" {% static "css/datepicker.min.css" %}" rel="stylesheet" >
+    <link href=" {% static "js/selects/select2.css" %}"rel="stylesheet">
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+    <script src="{% static "js/selects/select2.min.js" %}"></script>
+{% endblock %}
+
+{% block conteudo %}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title text-center"><i class="fa fa-plus" aria-hidden="true"></i> Cadastrar Eventos</h3>
+        </div>
+        <div class="panel-body">
+        <form action="" class="form-horizontal" method="POST">
+            {% csrf_token %}
+            <div class="row">
+                <div class="col-md-7"> 
+                    <div class="form-group">
+                        <label for="titulo" class="col-sm-2 control-label">{{form_ev.titulo.label}}  <i class="fa fa-user" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.titulo.errors}}
+                            {{form_ev.titulo}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="data" class="col-sm-2 control-label">{{form_ev.data.label}}  <i class="fa fa-calendar" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.data.errors}}
+                            {{form_ev.data}}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">{{form_ev.hora.label}}  <i class="fa fa-clock-o" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.hora.errors}}
+                            {{form_ev.hora}}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="endereco"class="col-sm-2 control-label">{{form_ev.endereco.label}}<i class="fa fa-map-marker" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.endereco.errors}}
+                            {{form_ev.endereco}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bairro" class="col-sm-2 control-label">{{form_ev.bairro.label}} <i class="fa fa-globe" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.bairro.errors}}
+                            {{form_ev.bairro}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="uf" class="col-sm-2 control-label">{{form_ev.uf.label}} <i class="fa fa-check" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.uf.errors}}
+                            {{form_ev.uf}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao" class="col-sm-2 control-label">{{form_ev.telefone.label}} <i class="fa fa-pencil" aria-hidden="true"></i></label>
+                        <div class="col-sm-8">
+                        {{form_ev.telefone.errors}}
+                            {{form_ev.telefone}}
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="email" class="col-sm-2 control-label">{{form_ev.email.label}} <i class="fa fa-envelope" aria-hidden="true"></i></label>
+                        
+                        <div class="col-sm-8">
+                        {{form_ev.email.errors}}
+                            {{form_ev.email}}
+                        </div>
+                    </div>
+            </div>
+            <div class="col-md-5">
+                 <div class="form-group">
+                    <label for="data" class="col-sm-2 control-label">Cliente</label>
+                    <div class="col-sm-8">
+                        {{form_ev.cliente.errors}}
+                        {{form_ev.cliente}}
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="titulo" class="col-sm-2 control-label">Advogado </label>
+                    <div class="col-sm-8">
+                    {{form_ev.usuario.errors}}
+                        {{form_ev.usuario}}
+                    </div>
+                </div>
+                    <h4 class="text-center">
+                        <i class="fa fa-calendar-check-o" aria-hidden="true"></i> Eventos Agendados
+                    </h4>
+                    <div class="text-center datepicker-here" data-language='pt'></div> 
+                    <div id="custom-cells-events"><strong></strong><p></p></div>   
+            </div>
+            </div>
+                <button type="submit" class="btn btn-primary">
+                    <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
+                </button>
+                <a class="btn btn-success" href="/agenda/"><i class="fa fa-arrow-left" aria-hidden="true"></i>  Voltar</a>
+        </form>
+        </div> 
+    </div>
+{% endblock %}
+{% block js_agenda %}
+    <script src="{% static "js/calendario_e_mask.js" %}"></script>
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+{% endblock js_agenda %}

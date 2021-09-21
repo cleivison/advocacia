@@ -1,0 +1,66 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+    Cadastro De Usuarios
+{% endblock title %}
+{% block conteudo %}
+<div id="signupbox" style="margin-top:50px" class="mainbox col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+    <div class="panel panel-info">
+        <div class="panel-heading">
+            <div class="panel-title"><i class="fa fa-sign-in"></i> Cadastre-se</div>
+        </div>  
+        <div class="panel-body" >
+            <form id="signupform" class="form-horizontal " role="form" method="POST">
+                {% csrf_token %}
+                <div id="signupalert" style="display:none" class="alert alert-danger">
+                    <p>Error:</p>
+                    <span></span>
+                </div>
+                          
+                <div class="form-group">
+                    <label for="firstname" class="col-md-3 control-label">Nome</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="nome" placeholder="Digite seu Nome">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="lastname" class="col-md-3 control-label">Sobre Nome</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="sobrenome" placeholder="sobrenome">
+                    </div>
+                </div>
+                    
+                <div class="form-group">
+                    <label for="email" class="col-md-3 control-label">Email</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="username" placeholder="Email ">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="password" class="col-md-3 control-label">Senha</label>
+                    <div class="col-md-9">
+                        <input type="password" class="form-control" name="password" placeholder="Digite sua Senha">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="icode" class="col-md-3 control-label">Perfil</label>
+                    <div class="col-md-9">
+                       {{form.perfil}}
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <!-- Button -->                                        
+                    <div class="col-md-offset-3 col-md-9">
+                        <button id="btn-signup" type="submit" class="btn btn-info"><i class="icon-hand-right"></i> Cadastrar</button>                    
+                    </div>
+                </div>
+                
+            </form>
+         </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block js %}{% endblock %}

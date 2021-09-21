@@ -1,0 +1,96 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+   Contas Fixas
+{% endblock title %}
+{% block conteudo %}
+        <div class="col-sm-12">
+            <a href="/contas/add_pagar/" class="btn btn-primary pull-right h2">Adicionar  <i class="fa fa-plus" aria-hidden="true"></i></a>
+        </div>
+        <div id="list" class="row">
+            <h2> <i class="fa fa-clipboard fa-fw"></i> Contas Fixas</h2>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                   <div class="col-md-5">
+                        <input id="contaspagar" name="contas"value="/contas/pagar/" checked type="radio"/>
+                        <label for="contaspagar">Contas a pagar</label> 
+                    </div>
+              </div>
+            </div>
+           
+            <div class="table-responsive ">
+                {% if contas %} 
+                <table class="table table-striped" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Cod</th>
+                            <th>Descrição <i class="fa fa-pencil-square-o"aria-hidden="true"></i></th>
+                            <th>Vencimento <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                            <th>Valor Total $<i class="fa fa-" aria-hidden="true"></i></th>
+                            <th>Nº de parcelas <i class="fa fa-leaf" aria-hidden="true"></i></th>
+                            <th>Status do pagamento <i class="fa fa-check" aria-hidden="true"></i></th>
+                            <th>Formas de Pagamento <i class="fa fa-credit-card" aria-hidden="true"></i></th>
+                            <th class="actions">Ações <i class="fa fa-cog" aria-hidden="true"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for conta in contas %}  
+                        <tr>
+                            <td>{{forloop.counter}}</td>
+                            <td><a href="/contas/pagar/{{conta.id}}/"> {{conta.descricao }}</a></td>
+                            <td><a href="/contas/pagar/{{conta.id}}/"> {{conta.vencimento|date:"D,d,M,Y" }}</a><br></td>
+                            <td><a href=""> {{conta.valor_total }}</a></td>
+                            <td class="text-center">{{conta.n_parcela }}</td>
+                            <td class="text-center success">
+                                {% if conta.status_pag == True %}
+                                    <i id="pago" class="fa fa-check text-success" aria-hidden="true"></i> 
+                                {% else %}
+                                    <i id="aberto" class="fa fa-times text-danger" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{conta.forma_pagamento }}</td>
+                            <td class="actions">
+                                <a class="btn btn-success btn-xs" href="/contas/pagar/{{conta.id}}/">Visualizar</a>
+                                <a class="btn btn-warning btn-xs" href="/contas/pagar/atualizar/{{conta.id}}/">Editar</a>
+                                <a class="btn btn-danger btn-xs js-delete-conta"  href="#" >Excluir</a>
+                            </td>
+                        </tr>
+                        <!--deletar-->
+                        <div class="modal fade" id="delete-conta-modal" >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <form method="post"action="/contas/pagar/deletar/{{conta.id}}/" >
+                                        {% csrf_token %}
+                                        <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                                        <h4 class="modal-title" id="modalLabel"><i class="fa fa-trash" aria-hidden="true"></i> Deletar Conta</h4>
+                                        </div>
+                                        <div class="modal-body">
+                                             <p class="lead">Deseja Realmente Deletar ?</p>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-success" type="submit">Sim</button>
+                                            <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}    
+                    </tbody>
+                </table>
+                {% else %}
+                    <h2 class="alert alert-warning">Sem Contas Cadastradas.</h2>
+                {% endif %}
+                <div>
+                    <h3>{{ contas |length }} Conta{{ contas |length|pluralize }}</h3>
+                </div>
+            </div>
+           
+            <script>
+                $('input[type="radio"]').on('click', function() {
+                     window.location = $(this).val();
+                });
+            </script>
+    </div>
+{% endblock conteudo %}

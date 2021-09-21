@@ -1,0 +1,90 @@
+{% extends 'base_sistema.html' %}
+{% load static %}
+{% block title %}
+	Add  Post
+{% endblock title %}
+{% block blog %}
+    <!-- arquivos do blog  -->
+    <script src="{% static 'js/tinymce/tinymce.min.js' %}"></script>
+    <script src="{% static 'js/tinymce/langs/pt_BR.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/tinymce/custon.js' %}" ></script>
+    <script type="text/javascript"> tinyMCE.init({mode:"#id_text"}); </script>
+{% endblock %}
+{% block conteudo %}
+		<div class="panel panel-primary">
+			<div class="panel-heading">
+				<h3 class="panel-title text-center"><i class="fa fa-plus" aria-hidden="true"></i> CADASTRAR POSTAGENS</h3>
+			</div>
+			<style>
+           #id_tags{
+            list-style:none;
+           }
+       </style>
+			<div class="panel-body">
+				<form action="" class="form-horizontal" method="POST">
+					{% csrf_token %}
+					{{ form.errors.as_p }}
+					<b>{{form.title.label}}</b>
+					{{form.title}}
+					<b>{{form.tags.label}}</b> <a href="#" class="js-add-tag"title="Adicionar Uma Tag"> <i class="fa fa-plus text-success" aria-hidden="true"></i></a>
+					{{form.tags}}
+					<b>{{form.text.label}}</b>
+					{{form.text}}
+
+					<button type="submit" class="btn btn-primary">
+						<span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
+					</button>
+					<a class="btn btn-success" href=""><i class="fa fa-arrow-left" aria-hidden="true"></i>  Voltar</a>
+				</form>
+			</div>
+		</div>
+		<!-- Modal pra add as novas categorias de contas -->
+	    <div class="modal fade" id="add-tag-modal" >
+	        <div class="modal-dialog" role="document">
+	            <div class="modal-content">
+	                <form method="post" action="{% url "new_tag" %}" >
+	                	{% csrf_token %}
+	                    <div class="modal-header">
+	                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+	                    <h4 class="modal-title" id="modalLabel"><i class="fa fa-plus" aria-hidden="true"></i> Adicionar Uma Nova Tag</h4>
+	                    </div>
+	                    <div class="modal-body">
+	                        <div class="container">
+							   <div class="col-md-4"> 
+							        <b>Tag:</b><input type="text"class="form-control" name='title'>
+							        <b>Slug:</b><input type="text"class="form-control" name='slug' >
+								</div>
+							</div>
+	                    </div>
+	                    <div class="modal-footer">
+	                    	<button class="btn btn-success" type="submit">Cadastrar</button>
+	                    	<button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+	                    </div>
+	                </form>
+	            </div>
+	        </div>
+	    </div>
+{% endblock %}
+{% block js_blog %}
+	<script type="text/javascript">
+            /*modal create*/
+            $(function ($) {
+                  $(".js-add-tag").click(function () {
+                    $.ajax({
+                      url: '/blog/nova/tag/',
+                      type: 'get',
+                      dataType: 'json',
+                      beforeSend: function () {
+                        jQuery.noConflict(); 
+                        $("#add-tag-modal").modal("show");
+                      },
+                      success: function (data) {
+                        $("#add-tag-modal .modal-content").html(data.html_form);
+                      }
+                    });
+                  });
+
+                });
+           
+    </script>
+{% endblock js_blog %}

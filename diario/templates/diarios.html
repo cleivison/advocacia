@@ -1,0 +1,138 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Diario
+{% endblock title %}
+{% block diario %}
+	<link href=" {% static "js/jquery-uis/jquery-ui.css" %}"rel="stylesheet">
+    <script src="{% static "js/jquery-uis/jquery-ui.js" %}" type="text/javascript"></script>
+{% endblock diario %}
+{% block conteudo %}
+	<div class="row">
+        <div class="col-lg-12">
+        	<a class="btn btn-primary  pull-right h2 js-buscas"  href="#" >
+        		<i class="fa fa-search" aria-hidden="true"> </i> Buscar No Diário
+        	</a>
+            <h1 class="page-header">
+            	<i class="fa fa-balance-scale fa-fw"></i> Diário Oficial
+            </h1>
+        </div>
+    </div>
+     <div class="table-responsive ">
+        {% if files %} 
+            <table class="table table" cellspacing="0" cellpadding="0" id="desaparecer_table">
+                <thead>
+                    <tr class="table table-bordered">
+                        <th>Nº</th>
+                        <th>Nome <i class="fa fa-file-o" aria-hidden="true"></i></th>
+                        <th>Data <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                        <th>Pesquisa Diário <i class="fa fa-search" aria-hidden="true"></i></th>
+                        <th class="actions">Excluir <i class="fa fa-cog" aria-hidden="true"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for file, pesquisa in files %}
+                    <tr id=" {{pesquisa.id}}">
+                        <td>{{forloop.counter}}</td>
+                        <td><a href="/pdf/{{ pesquisa.id }}"target="_blank">{{pesquisa.nome_arquivo}}</a></td>
+                        <td>{{ pesquisa.data|date:"D,d,M,Y" }}</td>
+                        <td>{{ pesquisa.busca_diario }}</td>
+                        <td class="actions">
+                            <a type="button"class="btn btn-danger btn-xs js-delete-file" id="{{pesquisa.id}}"><span class="glyphicon glyphicon-trash"></span>  Excluir
+                            </a>
+                        </td>
+                    </tr>
+                    <!--deletar-->
+                    <div class="modal fade" id="delete-documento-modal" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <h2 class="alert alert-warning text-center">Sem Arquivos.</h2>
+        {% endif %}
+            <div>
+                <h3>{{files|length }} Arquivo{{files|length|pluralize }}</h3>
+            </div>
+        </div>
+        <style type="text/css">
+				@keyframes FadeIn {
+				  from {
+				    background-color: #d2f9f3;
+				  }
+				  
+				  to {
+				    background-color: white;
+				  }
+				}
+
+				table tbody tr:nth-child(1) {
+				    background-color: white;
+				    animation: FadeIn 3s ease-in-out forwards;
+				}
+			</style>
+	<!-- Modal pra buscas no diario -->
+	<div class="modal fade" data-backdrop="static" data-keyboard="false"id="buscar-modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel">
+	    <div class="modal-dialog" role="document">
+	        <div class="modal-content">
+		        <form method="POST" action="/diario/buscar/"role="form">
+		        {% csrf_token %}
+		            <div class="modal-header">
+		                <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+		                <h4 class="modal-title" id="modalLabel"><i class="fa fa-search" aria-hidden="true"></i> Pesquisar Dados No Processo</h4>
+		            </div>
+		            <div class="modal-body">
+		              	<div class="row">
+		              		<div class="col-md-6"> 
+						        <b>Buscar No Diário:</b><input type="text"class="form-control" name='nome'>
+	                    	</div>
+	                    	<div class="col-md-6">
+	                    		<b>Data:</b><input type="text"class="form-control" name='data' id="id_date">
+	                    	</div>
+		              	</div>
+		            </div>
+		          <div class="modal-footer">
+		            <button type="submit" class="save btn btn-primary pull-right">Buscar</button>
+		          </div>
+	        	</form>
+	        </div>
+	    </div>
+	</div>	
+		<div class="col-md-12">
+			<script type="text/javascript">
+				/* mascara de data*/
+				$("#id_date").mask("99/99/9999").datepicker({
+					dateFormat: 'dd/mm/yy',changeMonth: true,changeYear: true,
+					dayNames: ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'],
+				    dayNamesMin: ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb','Dom'],
+				    monthNames: ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'],
+				    monthNamesShort: ['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'],
+				}).datepicker("setDate", new Date());;
+				$(function () {
+				  $(".js-buscas").click(function () {
+				    $.ajax({
+				      url: '/diario/buscar/',
+				      type: 'get',
+				      dataType: 'json',
+				      beforeSend: function () {
+				        $("#buscar-modal").modal("show");
+				      },
+				      success: function (data) {
+				        $("#buscar-modal .modal-content").html(data.html_form);
+				      }
+				    });
+				  });
+
+				});
+				
+			</script>
+	</div>
+{% endblock conteudo %}
+{% block js_diario %}  
+	<script src="/static/js/diario.js"></script>
+{% endblock js_diario %}

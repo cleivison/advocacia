@@ -1,0 +1,37 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Lista De Processos
+{% endblock title %}
+{% block cliente %}
+    <link href=" {% static "js/jquery-uis/jquery-ui.css" %}"rel="stylesheet">
+    <script src="{% static "js/jquery-uis/jquery-ui.js" %}"type="text/javascript"></script>
+{% endblock %}
+{% block css %}
+    <link href=" {% static "js/selects/select2.css" %}"rel="stylesheet">
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+    <script src="{% static "js/selects/select2.min.js" %}"></script>
+{% endblock %}
+
+{% block conteudo %}
+
+    {% for processos in processo %}
+      <h2>Processo</h2><br><br>
+	  <b>N° Processo:</b> {{processos.numero_processo}}- <b>Ano Processo:</b> {{processos.ano_processo }} - <b>Especie:</b> {{processos.especie}} <br>
+      <b>VVV:</b> {{processos.VVV}} - <b>RR:</b> {{processos.RR}}- <b>SS:</b> {{processos.SS }}<br>
+      <b>Reclamante:</b> {{processos.reclamante}} - <b>Advogado Reclamante:</b> {{processos.advogado_reclamante }}<br>
+      <b>Reclamado:</b> {{processos.reclamado}} - <b>Advogado Reclamado:</b> {{processos.advogado_reclamado}}<br>
+      <b>Etapa processo:</b> {{processos.etapa_processo }} - <b>Cliente:</b> {{processos.cliente}} - <b>Advogado:</b> {{processos.usuario}}<br><br>
+      <h3>Movimentos</h3><br>
+      {% for movimentos in movimento %}
+          <b>Data movimentacao:</b> {{movimentos.data_movimentacao }}<br>
+          <b>Descrição:</b> {{movimentos.descricao }}<br><br>
+      {%endfor%}
+	{%endfor%}
+{% endblock conteudo %}
+{% block js_processo %}
+    <script src="{% static "js/processo.js" %}"></script>
+{% endblock js_processo %}

@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}
+   Contas à Pagar
+{% endblock title %}
+{% block conteudo %}
+    <div class="container">
+        <div id="list" class="row">
+            <h2> <i class="fa fa-clipboard fa-fw"></i> Contas a Pagar</h2>
+            <div class="panel panel-default">
+              <div class="panel-body">
+                    <div class="col-md-5">
+                        <input id="contaspagar" name="contas" checked type="radio"/>
+                        <label for="contaspagar">Contas a pagar</label> -
+                        <input id="contasreceber" name="contas" checked type="radio"/> <label for="contasreceber">Contas a receber</label> <br>
+                    </div>
+                    <div class="col-md-4"></div>
+                    <div class="col-md-3">
+                        <b><a href="/contas/pagar/pagas"><i class="fa fa-check text-success" aria-hidden="true"></i> PAGAS</a></b> - 
+                        <b><a href="/contas/pagar/aberta">  <i class="fa fa-times text-danger" aria-hidden="true"></i> EM ABERTO</a></b> <br>
+                    </div>
+              </div>
+            </div>
+           
+            <div class="table-responsive col-md-12">
+                {% if contas %} 
+                <table class="table table-striped" cellspacing="0" cellpadding="0">
+                    <thead>
+                        <tr>
+                            <th>Cod</th>
+                            <th>Vencimento <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                            <th>Valor Total $<i class="fa fa-" aria-hidden="true"></i></th>
+                            <th>Numero de parcelas <i class="fa fa-leaf" aria-hidden="true"></i></th>
+                            <th>Status do pagamento <i class="fa fa-check" aria-hidden="true"></i></th>
+                            <th>Formas de pagamento <i class="fa fa-credit-card" aria-hidden="true"></i></th>
+                            <th class="actions">Ações <i class="fa fa-cog" aria-hidden="true"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for Contas in contas %}  
+                        <tr id="{{forloop.counter}}">
+                            <td>{{forloop.counter}}</td>
+                            <td><a href="/contas/pagar/{{Contas.id}}/"> {{Contas.vencimento }}</a><br></td>
+                            <td><a href=""> {{Contas.valor_total }}</a></td>
+                            <td>{{Contas.n_parcela }}</td>
+                            <td class="text-center success">
+                                {% if Contas.status_pag == True %}
+                                    <i id="pago" class="fa fa-check text-success" aria-hidden="true"></i> 
+                                {% else %}
+                                    <i id="aberto" class="fa fa-times text-danger" aria-hidden="true"></i>
+                                {% endif %}
+                            </td>
+                            <td>{{Contas.forma_pagamento }}</td>
+                            <td class="actions">
+                                <a class="btn btn-success btn-xs" href="/contas/pagar/{{Contas.id}}/">Visualizar</a>
+                                <a class="btn btn-warning btn-xs" href="/contas/pagar/atualizar/{{Contas.id}}/">Editar</a>
+                                <a class="btn btn-danger btn-xs"  href="/contas/pagar/deletar/{{Contas.id}}/" >Excluir</a>
+                            </td>
+                        </tr>
+                    {% endfor %}    
+                    </tbody>
+                </table>
+                {% else %}
+                    <h2 class="alert alert-warning">Sem Contas cadastradas.</h2>
+                {% endif %}
+                <div>
+                    <h3>{{ contas |length }} Conta{{ contas |length|pluralize }}</h3>
+                    <h4><b>Total:</b> {{ contas.paginator.count }} Conta{{ contas.paginator.count|pluralize }}</h4>
+                </div>
+            </div>
+    </div>
+    </div>
+{% endblock conteudo %}

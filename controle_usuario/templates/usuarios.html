@@ -1,0 +1,83 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Usuarios
+{% endblock title %}
+{% block conteudo %}
+   <div class="col-lg-12">
+    <div class="table-responsive">
+    		<h3 class="text-center">Usuarios Cadastrados</h3><br>
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>Nº</th>
+						<th><i class="fa fa-user" aria-hidden="true"></i> Nome De Usuario</th>
+						<th><i class="fa fa-user" aria-hidden="true"></i> Nome</th>
+						<th><i class="fa fa-user" aria-hidden="true"></i> Perfil</th>
+						<th><i class="fa fa-cog " aria-hidden="true"></i> Excluir</th>
+					</tr>
+				</thead>
+
+				<tbody>
+				{% for user in users %}
+					<tr>
+						<td> {{ user.id }} </td>
+						<td><a href="">{{user.username}}</a></td>
+						<td>{{user.first_name}}</td>
+						<td>{{user.funcionario.perfil}}</td>
+						<td>
+							<a href="#" class="btn btn-danger js-delete-user">
+								<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+							</a>
+						</td>
+					</tr>
+					 <!--deletar-->
+                    <div class="modal fade" id="delete-user" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form method="post"action="/usuario/excluir/{{user.username}}/" >
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalLabel"><i class="fa fa-trash" aria-hidden="true"></i> Deletar Esse Usuario(a)</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                         <p class="lead">Deseja Realmente Deletar ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success" type="submit">Sim</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+				{% endfor %}	
+				</tbody>
+			</table>
+    </div>
+ 
+
+{% endblock conteudo %}
+{% block js_user %}
+	<script type="text/javascript">
+	 /*delete*/
+                jQuery(document).ready(function($){
+                      $(".js-delete-user").click(function () {
+                        $.ajax({
+                          url: '/usuario/excluir/(?P<username>[\w|\W.-]+)/',
+                          type: 'get',
+                          dataType: 'json',
+                          beforeSend: function () {
+                            jQuery.noConflict(); 
+                            $("#delete-user").modal("show");
+                          },
+                          success: function (data) {
+                            $("#delete-user .modal-content").html(data.html_form);
+                          }
+                        });
+                      });
+
+                    });
+	</script>
+{% endblock  %}

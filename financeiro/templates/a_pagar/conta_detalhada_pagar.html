@@ -1,0 +1,106 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+  Detalhes
+{% endblock title %}
+
+{% block conteudo %}
+	<div class="col-md-1"></div>
+	   <div class="col-lg-10">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    $ Detalhes da conta Pagar
+                </div>
+                    <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <li href="#" class="list-group-item">
+                                <i class="fa fa-calendar-o fa-fw"></i><b>Vencimento:</b> 
+                                <span class="pull-right text-muted small"><b>{{conta.vencimento }}
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <i class="fa fa-pencil-square-o fa-fw"></i><b>Descrição:</b> 
+                                <span class="pull-right text-muted small"><b>{{conta.descricao }}
+                                </span>
+                            </li>
+                             <li href="#" class="list-group-item">
+                                    &nbsp;$ Valor Total:
+                                <span class="pull-right text-muted small"><b>{{conta.valor_total }}</b>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                    &nbsp;$ Valor Parcela:
+                                <span class="pull-right text-muted small"><b>R$ {{conta.valor_parcela }}</b>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <i class="fa fa-leaf fa-fw"></i>Numero de Parcelas:
+                                <span class="pull-right text-muted small"><b>{{conta.n_parcela }}</b>
+                                 </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                 <i class="fa fa-credit-card fa-fw"></i> Formas de Pagamento:
+                                <span class="pull-right text-muted small"><b> {{conta.forma_pagamento }}</b>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">                           
+                                <i class="fa fa-check fa-fw"></i> Status de pagamento:
+                                <span class="pull-right text-muted small">
+                                    {% if conta.status_pag == True %}
+                                        <i id="pago" class="fa fa-check text-success" aria-hidden="true"></i> 
+                                    {% else %}
+                                        <i id="aberto" class="fa fa-times text-danger" aria-hidden="true"></i>
+                                    {% endif %}
+                                </span>
+                            </li>
+                            </a>
+                        </div>
+                            <!-- /.list-group -->
+                        <div class="col-md-4">
+                            <a href="/contas/pagar" class="btn btn-success btn-block"> <i class="fa fa-arrow-left fa-fw"></i> Voltar</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a class="btn btn-danger btn-block js-delete-conta" id="{{conta.id}}"><i class="fa fa-trash-o fa-fw"></i> Deletar</a>
+                        </div>
+                        <div class="col-md-4">
+                            <a href="/contas/pagar/atualizar/{{conta.id}}/"class="btn btn-warning btn-block"><i class="fa fa-pencil-square-o fa-fw"></i> Editar</a>
+                        </div>
+                    </div>
+                </div>
+                <!--deletar-->
+                <div class="modal fade" id="delete-conta-modal" >
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            
+                        </div>
+                    </div>
+                </div>
+         <!-- /.panel-body -->
+            <div class="row">
+                {% for Parcelas in conta.parcela_set.all %}
+                 <div class="col-md-3">
+                    <div class="panel panel-default ">
+                      <div class="panel-heading">Parcela Nº {{forloop.counter}}</div>
+                      <div class="panel-body text-center">
+                            <i class="fa fa-calendar-o fa-fw"></i> Vencimento:<br> {{Parcelas.vencimento }}<br>
+                             <i class="fa fa-check fa-fw"></i>
+                             Status do Pagamento:<br>
+                            {% if Parcelas.status_pag == True %}
+                                <i class="fa fa-check text-success" aria-hidden="true"></i><br>
+                                <i class="fa fa-calendar-o fa-fw"></i> Pago em:<br> {{Parcelas.data_pag }}<br>
+                            {% else %}
+                                <i class="fa fa-times text-danger" aria-hidden="true"></i><br>
+                                <a href="/contas/parcela/{{Parcelas.id}}/">Pagar</a>
+                            {% endif %}<br>
+                      </div>
+                    </div>
+                </div> 
+                {% endfor %} 
+            </div>   
+        </div>         
+{% endblock %}
+{% block js_financeiro %}
+    <script src="{% static "js/modal.js" %}"></script>
+{% endblock js_financeiro %}
+

@@ -1,0 +1,135 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %}
+	Home
+{% endblock title %}
+{% block container%}
+	
+	<section id="main-slider" class="no-margin">
+        <div class="carousel slide">      
+            <div class="carousel-inner">
+                <div class="item active" style="background-image: url({% static "images/slider/banner.jpg"%})">
+                    <div class="container">
+                        <div class="row slide-margin">
+                            <div class="col-sm-6">
+                                <div class="carousel-content">
+                                    <h2 class="animation animated-item-1">Welcome <span>Company</span></h2>
+                                    <p class="animation animated-item-2">Fundado há mais de 30 anos, a Advocacia Trabalhista Thiago atua primordialmente no ramo do Direito do Trabalho, Ações Indenizatórias, Consultoria Legal e Contencioso...</p>
+                                    <a class="btn-slide animation animated-item-3" href="#">Leia Mais</a>
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6 hidden-xs animation animated-item-4">
+                                <div class="slider-img">
+                                    <img src="{% static "images/slider/img3.png" %}" class="img-responsive">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div><!--/.item-->             
+            </div><!--/.carousel-inner-->
+        </div><!--/.carousel-->
+    </section><!--/#main-slider-->
+	
+	<div class="feature">
+		<div class="container">
+		<div class="text-center">
+				<h2>Áreas de atuação</h2>
+			</div>
+			<div class="text-center">
+				<div class="col-md-3">
+					<div class="hi-icon-wrap hi-icon-effect wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms" >
+						<i class="fa fa-briefcase"></i>	
+						<h2>Direito do Trabalho</h2>
+						<p>Avaliamos e reivindicamos possíveis irregularidades em contrato de trabalho.</p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="hi-icon-wrap hi-icon-effect wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms" >
+						<i class="fa fa-laptop"></i>	
+						<h2>Ações Indenizatórias</h2>
+						<p>O Escritório dispõe de carteira diversificada de créditos vencidos decorrentes de relações contratuais.</p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="hi-icon-wrap hi-icon-effect wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="900ms" >
+						<i class="fa fa-gavel"></i>	
+						<h2> Consultoria Legal </h2>
+						<p> Em âmbito judicial junto a disputas societárias, como também desenvolve assessoramento relativo à compra e venda </p>
+					</div>
+				</div>
+				<div class="col-md-3">
+					<div class="hi-icon-wrap hi-icon-effect wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1200ms" >
+						<i class="fa fa-cloud"></i>	
+						<h2> Renovações Implantadas</h2>
+						<p>Com a Lei 8.078/90, de reger as relações cada vez mais frequentes de consumo em massa.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<div class="about">
+		<div class="container">
+			<div class="col-md-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms" >
+				<h2>Sobre Nós</h2>
+				<img src="{% static "images/6.jpg"%}" class="img-responsive"/>
+				<p>Avaliamos e se necessário reivindicamos possíveis irregularidades em contrato de trabalho, rescisões, férias, horas extraordinárias, reenquadramento salarial, plano de carreira, justa causa, equiparação salarial, reintegração, danos morais, LER (lesões por esforços repetitivos), assédio moral, entre outros.
+
+
+
+				</p>
+			</div>
+			
+			<div class="col-md-6 wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms" >
+				<h2>Nossa Equipe É Profissional</h2>
+				<p>
+					Por questões estratégicas, nosso escritório (sede própria) está localizado a 100 (cem) metros do terminal rodoviário e estação Barra Funda do Metrô/Trem e a 200 (duzentos) metros do Fórum Rui Barbosa (Justiça do Trabalho), contando com uma equipe de 60 					profissionais, sendo 28 advogados, 15 estagiários e 17 paralegais, todos altamente 	envolvidos no processo de planejamento, elaboração, execução e acompanhamento das ações.
+				<p>
+					O nosso escritório valoriza o potencial de seus colaboradores e investe em seus talentos. O aprimoramento contínuo e o comprometimento de seus integrantes são a fonte da qualidade dos serviços prestados e da satisfação dos clientes. Por isso, além do cuidado na seleção de novos colaboradores, oferece um processo permanente de educação e aprendizagem que inclui atividades de treinamento e desenvolvimento profissional.
+				</p>
+				<p>
+					Em defesa exclusivamente do direito do trabalhador, nosso objetivo é oferecer aos nossos clientes a melhor solução para os conflitos trabalhistas e relações de trabalho, sempre prezando pelo atendimento personalizado e de alta qualidade em uma estrutura totalmente voltada a sua área de atuação.</p>
+			</div>
+		</div>
+	</div>
+	
+	<section id="partner">
+        <div class="container">
+            <div class="center wow fadeInDown">
+                <h2>Alianças e Parcerias</h2>
+                <p>Advocacia Thiago Ramos mantém parcerias e desenvolve alianças no intuito de melhor atender os seus clientes.<br> Para assim lhe oferecer o melhor e mais eficiente serviço.</p>
+            </div>    
+
+            <div class="partners">
+                <ul>
+                    <li> <a href="#"><img class="img-responsive wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="300ms" src="{% static "images/partners/partner1.png"%}"></a></li>
+                    <li> <a href="#"><img class="img-responsive wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms" src="{% static "images/partners/partner2.png"%}"></a></li>
+                    <li> <a href="#"><img class="img-responsive wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="900ms" src="{% static "images/partners/partner3.png"%}"></a></li>
+                    <li> <a href="#"><img class="img-responsive wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1200ms" src="{% static "images/partners/partner4.png"%}"></a></li>
+                    <li> <a href="#"><img class="img-responsive wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="1500ms" src="{% static "images/partners/partner5.png"%}"></a></li>
+                </ul>
+            </div>        
+        </div><!--/.container-->
+    </section><!--/#partner-->
+	
+	<section id="conatcat-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-8">
+                    <div class="media contact-info wow fadeInDown" data-wow-duration="1000ms" data-wow-delay="600ms">
+                        <div class="pull-left">
+                            <i class="fa fa-phone"></i>
+                        </div>
+                        <div class="media-body">
+                            <h2>Tem uma dúvida ou precisa de um orçamento personalizado?</h2>
+                            <p>Nossa Central de Atendimento é uma extensão do seu escritório. Você pode contar com o nosso suporte altamente qualificado sempre que precisar. ligue +0123 456 70 80</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!--/.container-->    
+    </section><!--/#conatcat-info-->
+
+ {%endblock%}

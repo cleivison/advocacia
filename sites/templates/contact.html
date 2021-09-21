@@ -1,0 +1,52 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %}
+	Contate-nos
+{% endblock title %}
+{% block container%}
+	
+	<div id="breadcrumb">
+		<div class="container">	
+			<div class="breadcrumb">							
+				<li><a href="index.html">Home</a></li>
+				<li>Contate-nos</li>			
+			</div>		
+		</div>	
+	</div>
+	
+	<section id="contact-page">
+        <div class="container"><br>
+            <div class="row contact-wrap"> <br>
+            <div class="center">        
+                <h2>Envie-nos uma  Mensagem</h2>
+                <p>A sua opinião é muito importante para nós. para aperfeiçoarmos a estreita relação profissional que buscamos manter.</p>
+            </div> 
+                <div class="status alert alert-success" style="display: none"></div>
+                <div class="col-md-6 col-md-offset-3">
+                    <div id="sendmessage">Sua mensagem foi enviada .Obrigado!</div>
+                    <div id="errormessage"></div>
+                    <form action="" method="post" role="form" class="contactForm">
+                            <div class="form-group">
+                                    <input type="text" name="name" class="form-control" id="name" placeholder=" Nome" data-rule="minlen:4" data-msg="Please enter at least 4 chars" autofocus />
+                                    <div class="validation"></div>
+                            </div>
+                            <div class="form-group">
+                                    <input type="email" class="form-control" name="email" id="email" placeholder=" Email" data-rule="email" data-msg="Please enter a valid email" autofocus />
+                                    <div class="validation"></div>
+                            </div>
+                            <div class="form-group">
+                                    <input type="text" class="form-control" name="subject" id="subject" placeholder="Assunto" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" autofocus />
+                                    <div class="validation"></div>
+                            </div>
+                            <div class="form-group">
+                                    <textarea class="form-control" name="message" rows="5" data-rule="required" data-msg="Please write something for us" placeholder="Mensagem"autofocus ></textarea>
+                                    <div class="validation"></div>
+                            </div>
+                        <div class="text-center"><button type="submit" name="submit" class="btn btn-primary btn-lg" required="required">Enviar</button></div><br><br>
+                    </form>                       
+                </div>
+            </div><!--/.row-->
+        </div><!--/.container-->
+    </section><!--/#contact-page-->
+	
+{%endblock%}

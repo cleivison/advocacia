@@ -1,0 +1,93 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %}
+    Blog Detalhe
+{% endblock title %}
+{% block container%}
+    
+    <div id="breadcrumb">
+        <div class="container"> 
+            <div class="breadcrumb">                            
+                <li><a href="index.html">Home</a></li>
+                <li>Blog</li>           
+            </div>      
+        </div>  
+    </div>
+    
+    <section id="blog" class="container">
+        <div class="blog">
+            <div class="row">
+                 <!-- Blog Post Content Column -->
+            <div class="col-lg-8">
+                <h1>{{ post.title }}</h1>
+                <hr>
+                    <div class="pull-left">
+                        <a href="#"> by <span class="glyphicon glyphicon-user"></span>  {{ post.author }}</a>
+                    </div>
+                    {% if post.published_date %}
+                    <div class="date pull-right">
+                        <span class="glyphicon glyphicon-time"></span>  {{ post.published_date }}            
+                    {% endif %}
+                    </div><br>
+                    <style type="text/css">
+                        p img{
+                            border-radius: 5px;
+                            margin-bottom: 45px;
+                            width: 750px;
+                            height: 300px;
+                        }
+                     </style>
+                <p>{{ post.text|safe|linebreaksbr }}</p>
+                <hr>
+                
+            </div>
+                <aside class="col-md-4 pull">
+                    <div class="widget search">
+                        <form role="form">
+                            <input type="text" class="form-control search_box" autocomplete="off" placeholder="Pesquisar ">
+                        </form>
+                    </div><!--/.search-->
+                    
+                    <div class="widget categories">
+                        <h3>Categorias</h3>
+                        <div class="row">
+                            <div class="col-sm-6">
+                                <ul class="blog_category">
+                                    <li><a href="#">internet <span class="badge">04</span></a></li>
+                                    <li><a href="#">Smartphones <span class="badge">10</span></a></li>
+                                    <li><a href="#">Informação <span class="badge">06</span></a></li>
+                                    <li><a href="#">Tecnologia <span class="badge">25</span></a></li>
+                                </ul>
+                            </div>
+                        </div>                     
+                    </div><!--/.categories-->
+                    
+                    <div class="widget tags">
+                        <h3>Tag Cloud</h3>
+                        <ul class="tag-cloud">
+                          {% for tag in tags %}
+                            <li><a class="btn btn-xs btn-primary" href="{% url 'tag_posts_page' slug=tag.slug %}">{{ tag.title }}</a></li>
+                             {% empty %}
+                            <p>Nâo Há tags!</p>
+                          {% endfor %}
+                        </ul>
+                        
+                    </div><!--/.tags-->
+                    <!--/.blog_gallery
+                    <div class="widget blog_gallery">
+                        <h3>Nossa Galeria</h3>
+                        <ul class="sidebar-gallery">
+                            <li><a href="#"><img src="{% static "images/blog/gallery1.png"%}" alt="" /></a></li>
+                            <li><a href="#"><img src="{% static "images/blog/gallery2.png"%}" alt="" /></a></li>
+                            <li><a href="#"><img src="{% static "images/blog/gallery3.png"%}" alt="" /></a></li>
+                            <li><a href="#"><img src="{% static "images/blog/gallery4.png"%}" alt="" /></a></li>
+                            <li><a href="#"><img src="{% static "images/blog/gallery5.png"%}" alt="" /></a></li>
+                            <li><a href="#"><img src="{% static "images/blog/gallery6.png"%}" alt="" /></a></li>
+                        </ul>
+                    </div>-->
+                </aside>  
+            </div><!--/.row-->
+        </div>
+    </section><!--/#blog-->
+    
+{%endblock%}

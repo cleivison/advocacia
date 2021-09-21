@@ -1,0 +1,249 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+   Contas à Pagar
+{% endblock title %}
+{% block cliente %}
+    <link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+{% endblock %}
+
+{% block css %}
+    <link href=" {% static "js/selects/select2.css" %}"rel="stylesheet">
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+    <script src="{% static "js/selects/select2.min.js" %}"></script>
+{% endblock %}
+{% block conteudo %}
+    <div class="col-sm-12">
+        <a href="/contas/add_pagar/" class="btn btn-primary pull-right h2"style="margin-left: 5px;">Adicionar  <i class="fa fa-plus" aria-hidden="true"></i></a>
+       <a class="btn btn-success pull-right h2" href="/contas/pagar/receitas/"> <i class="fa fa-bar-chart" aria-hidden="true"></i> Receitas</a>
+    </div>
+    <div id="list" class="row">
+        <h2> <i class="fa fa-clipboard fa-fw"></i> Contas à Pagar</h2>
+        <div class="panel panel-default">
+            <div class="panel-body">
+               <div class="col-md-4">
+                    <input id="contaspagar" name="contas"value="/contas/pagar/" checked type="radio"/>
+                    <label for="contaspagar">Contas à Pagar</label> -
+                    <input id="contasreceber" value="/contas/receber/"name="contas"type="radio"/> <label for="contasreceber">Contas à Receber</label> <br>
+                </div>
+           
+                <div class="col-md-2" >
+                    <input type="text" id="data_ini" data-language="pt"name="data_ini" class="form-control" placeholder="Data Inicial" >
+                </div>
+                <div class="col-md-2">
+                    <input type="text" id="data_fin" data-language="pt"name="data_fin" class="form-control" placeholder="Data Final">
+                </div>
+                
+                <div class="col-md-3">
+                    <input type="checkbox" name="aberta" value="aberta" id="aberta"> <b><label for="aberta">EM ABERTO</label></b>
+                    <input type="checkbox" name="paga" value="F" id="paga" > <b><label for="paga">PAGA</label></b>
+                    <input type="checkbox" name="fixas" value="F" id="fixas" > <b><label for="fixas">FIXAS</label></b>
+                </div>
+                <div class="col-md-1">
+                    <button class="btn btn-success" type="submit" id="enviar"><i class="fa fa-search" aria-hidden="true"></i> Filtrar</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            {% if contas %} 
+            <table class="table table-striped" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>Cod</th>
+                        <th>Descrição <i class="fa fa-pencil-square-o"aria-hidden="true"></i></th>
+                        <th>Vencimento <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                        <th>Valor Total $<i class="fa fa-" aria-hidden="true"></i></th>
+                        <th>Nº de parcelas <i class="fa fa-leaf" aria-hidden="true"></i></th>
+                        <th>Status do pagamento <i class="fa fa-check" aria-hidden="true"></i></th>
+                        <th>Formas de pagamento <i class="fa fa-credit-card" aria-hidden="true"></i></th>
+                        <th>Conta Fixa <i class="fa fa-check" aria-hidden="true"></i></th>
+                        <th class="actions">Ações <i class="fa fa-cog" aria-hidden="true"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for conta in contas %}  
+                    <tr>
+                        <td id="cod">{{forloop.counter}}</td>
+                        <td><a id="descricao" href="/contas/pagar/{{conta.id}}/"> {{conta.descricao }}</a></td>
+                        <td><a id="vencimento" href="/contas/pagar/{{conta.id}}/"> {{conta.vencimento|date:"D,d,M,Y" }}</a><br></td>
+                        <td><a id="vtotal" href=""> {{conta.valor_total }}</a></td>
+                        <td id="nparcela" class="text-center">{{conta.n_parcela }}</td>
+                        <td id="status" class="text-center success">
+                            {% if conta.status_pag == True %}
+                                <i id="pago" class="fa fa-check text-success" aria-hidden="true"></i> 
+                            {% else %}
+                                <i id="aberto" class="fa fa-times text-danger" aria-hidden="true"></i>
+                            {% endif %}
+                        </td>
+                        <td id="forma">{{conta.forma_pagamento }}</td>
+                        <td id="tipo" class="text-center ">
+                            {% if conta.conta_fixa == True %}
+                                <i class="fa fa-check text-success"aria-hidden="true"></i> 
+                            {% else %}
+                                <i class="fa fa-times " aria-hidden="true"></i>
+                            {% endif %}
+                        </td>
+                        <td class="actions">
+                            <a class="btn btn-warning btn-xs" href="/contas/pagar/atualizar/{{conta.id}}/">Editar</a>
+                            <a class="btn btn-danger btn-xs js-delete-conta" id="{{conta.id}}" >Excluir</a>
+                        </td>
+                    </tr>
+                    <!--deletar-->
+                    <div class="modal fade" id="delete-conta-modal" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}    
+                </tbody>
+            </table>
+            {% else %}
+                <h2 class="alert alert-warning">Sem Contas Cadastradas.</h2>
+            {% endif %}
+            <div id="contador">
+                <h3>{{ contas |length }} Conta{{ contas |length|pluralize }}</h3>
+
+            <div id="filtro">
+
+            </div>
+            </div>
+
+        </div>
+        <script type="text/javascript">
+            jQuery(function($){
+                /*funcao que some com a div pesquisa*/
+                $('.expander').live('click', function () {
+                    $('#minhaDiv').slideToggle();
+                });
+                $("#data_ini").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+                $("#data_fin").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+            });
+        </script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+            $('#enviar').click(function(){
+                var data_ini = $("#data_ini").val();
+                var data_fin = $("#data_fin").val();
+                var aberta = ""
+                var paga = ""
+                var fixas = "";
+
+                if($('#aberta').is(':checked')){
+
+                    aberta = 's'
+                }else{
+                    aberta = 'n'
+                }
+
+                if($('#paga').is(':checked')){
+
+                    paga = 's'
+                }else{
+                    paga = 'n'
+                }
+
+                if($('#fixas').is(':checked')){
+
+                    fixas = 's'
+                }else{
+                    fixas = 'n'
+                }
+
+                $.ajax({
+                        type: "GET",
+                        data: {
+                          'data_ini'  : data_ini,
+                          'data_fin'  : data_fin,
+                          'aberta'    : aberta,
+                          'paga'      : paga,
+                          'fixas'     : fixas
+                        },
+                        url: '/contas/pagar/',
+                        dataType: 'json',
+                        success: function (z) { 
+                            for (var i = 0; i < Object.keys(z).length; i++) {
+                                z[i] = JSON.parse(z[i]);
+                            }
+                            $('table > tbody').remove();
+                            var conteudo = $('table');
+                            conteudo = conteudo.append('<tbody></tbody>');
+                            conteudo = $('tbody');
+                            if (Object.keys(z).length == 0) {
+                                document.getElementsByClassName("table-responsive").innerHTML="<h2 class='alert alert-warning'>Sem Contas para esta pesquisa.</h2>";
+                            } else {
+                                if (Object.keys(z).length > 1) {
+                                    document.getElementById("contador").innerHTML="<h3>"+ Object.keys(z).length+" Contas</h3>";
+                                } else {
+                                    document.getElementById("contador").innerHTML="<h3>"+ Object.keys(z).length+" Conta</h3>";
+                                }
+                            }
+
+                            $.each(z, function(chave, valor){
+                                conteudo.append('<tr>'+
+                                    '<td>'+valor[0]["pk"]+'</td>'+
+                                    '<td><a href='+valor[0]["pk"]+'>'+valor[1]["fields"]["descricao"]+'</a></td>'+
+                                    '<td><a href='+valor[0]["pk"]+'>'+valor[0]["fields"]["vencimento"]+'</a></td>'+
+                                    '<td><a href='+valor[0]["pk"]+'>'+valor[0]["fields"]["valor_total"]+'</a></td>'+
+                                    '<td class="text-center">'+valor[0]["fields"]["n_parcela"]+'</td>'+
+
+                                     '<td class="text-center success">'+ '' +
+                                        ((valor[0]["fields"]["status_pag"] == false)?
+                                        '<i class="fa fa-times text-danger " aria-hidden="true">'+'</i>':"")+((valor[0]["fields"]["status_pag"] ==true)?
+                                        '<i class="fa fa-check text-success" aria-hidden="true">'+'</i>':"")+
+                                    '</td>'+
+                                    '<td>'+valor[0]["fields"]["forma_pagamento"]+'</td>'+
+                                    '<td class="text-center success">'+ '' +
+                                        ((valor[1]["fields"]["conta_fixa"] == false)?
+                                        '<i class="fa fa-times text-danger " aria-hidden="true">'+'</i>':"")+((valor[1]["fields"]["conta_fixa"] ==true)?
+                                        '<i class="fa fa-check text-success" aria-hidden="true">'+'</i>':"")+
+                                    '</td>'+
+                                     '<td class="actions"><a class="btn btn-warning btn-xs"  href="/contas/pagar/atualizar/'+valor[0]["pk"]+'/" >Editar</a> <a class="btn btn-danger btn-xs js-delete-conta" id='+valor[0]["pk"]+'>Excluir</a></td>'+
+                                +'</tr>');
+                            });
+                            /*delete pra quando fizer o filtro*/
+                            jQuery(document).ready(function($){
+                              $(".js-delete-conta").click(function () {
+                                var btn = $(this);
+                                $.ajax({
+                                  url: '/contas/pagar/deletar/'+btn.attr("id")+'/',
+                                  type: 'get',
+                                  dataType: 'json',
+                                  beforeSend: function () {
+                                    jQuery.noConflict(); 
+                                    $("#delete-conta-modal").modal("show");
+                                  },
+                                  success: function (data) {
+                                    $("#delete-conta-modal .modal-content").html(data.html_form);
+                                  }
+                                });
+                              });
+
+                            });
+                        },
+
+                        error: function() {
+                            //inserir uma msg de erro mais elegante
+                            alert("Ocorreu um erro ao carregar os dados.");
+                        }
+                });
+            });
+        });
+        </script>
+        <script>
+            $('input[type="radio"]').on('click', function() {
+                 window.location = $(this).val();
+            });
+        </script>
+</div>
+{% endblock conteudo %}
+{% block js_financeiro %}
+    <script src="{% static "js/modal.js" %}"></script>
+{% endblock js_financeiro %}

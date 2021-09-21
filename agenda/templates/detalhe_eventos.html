@@ -1,0 +1,93 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+   Detalhes
+{% endblock title %}
+{% block conteudo %}
+<div class="col-md-1"></div>
+<div class="col-lg-10">
+    <div class="panel panel-success">
+        <div class="panel-heading">
+            <i class="fa fa-legal fa-fw"></i> Detalhes do Evento
+        </div>
+        <!-- /.panel-heading -->
+            <div class="panel-body">
+                <div class="list-group">
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-user fa-fw"></i> Funcionário
+                            <span class="pull-right text-muted small"><b>{{ ev.usuario }}</b>
+                        </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-users fa-fw"></i> Cliente
+                            <span class="pull-right text-muted small"><b>{{ ev.cliente }}</b>
+                        </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-calendar fa-fw"></i> Titulo/Data/Hora
+                            <span class="pull-right text-muted small"><b> {{ ev.titulo }} {{ ev.data }} {{ ev.hora }}</b>
+                        </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-map-marker fa-fw"></i> Endereço
+                            <span class="pull-right text-muted small"><b>{{ev.endereco}}</b>
+                         </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-phone fa-fw"></i> Telefone
+                            <span class="pull-right text-muted small"><b>{{ev.telefone}}</b>
+                        </span>
+                    </li>
+                     <li href="#" class="list-group-item">
+                        <i class="fa fa-globe fa-fw"></i> Uf
+                            <span class="pull-right text-muted small"><b>{{ev.get_uf_display}}</b>
+                            </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-pencil-square-o fa-fw"></i>Anotação
+                            <span class="pull-right text-muted small"><b>{{ev.anotacao|default_if_none:'sem '}}</b>
+                        </span>
+                    </li>
+                    <li href="#" class="list-group-item">
+                        <i class="fa fa-envelope-o fa-fw"></i> E-mail
+                        <span class="pull-right text-muted small"><b>{{ev.email|default_if_none:''}}</b>
+                        </span>
+                    </li>
+                       
+                    </div>
+                    <!-- /.list-group -->
+                    <div class="col-md-4">
+                        <a href="/agenda/" class="btn btn-success btn-block"> <i class="fa fa-arrow-left fa-fw"></i> Voltar</a>
+                    </div>
+                    <div class="col-md-4">
+                        <a href="#"class="btn btn-danger btn-block delete_agenda-js" id="{{ev.id_evento}}"><i class="fa fa-trash-o fa-fw"></i> Deletar</a>
+                    </div>
+                     <div class="col-md-4">
+                        <a href="/agenda/atualizar/{{ev.id_evento}}/"class="btn btn-warning btn-block"><i class="fa fa-pencil-square-o fa-fw"></i> Editar</a>
+                    </div>
+            </div>
+        <!-- /.panel-body -->
+        <!--deletar com modal-->
+            <div class="modal fade" id="delete-agenda-modal" >
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <form method="post"action="/agenda/delete/{{ev.id_evento}}/" >
+                            {% csrf_token %}
+                            <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="modalLabel"><i class="fa fa-trash" aria-hidden="true"></i> Confirmação de Exclusão</h4>
+                            </div>
+                            <div class="modal-body">
+                                 <p class="lead">Deseja Realmente Deletar Esse Evento ?</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-success" type="submit">Sim</button>
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+     </div>
+</div>
+{% endblock %}

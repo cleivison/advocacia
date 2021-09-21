@@ -1,0 +1,217 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock title %}
+    </title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href=" {% static "css/bootstrap.min.css" %}"rel="stylesheet">
+    <link href=" {% static "font-awesome/css/font-awesome.min.css" %}"rel="stylesheet">
+    <link href=" {% static "css/sb-admin-2.css" %}"rel="stylesheet">
+    <script src="{% static "js/plugin_mascaras/jquery-1.8.3.min.js" %}"></script>
+    <script src="{% static "js/plugin_mascaras/jquery.maskedinput.min.js" %}"></script>
+    <script src="{% static "js/plugin_mascaras/jquery.priceformat.min.js" %}"></script>
+    <!-- selects com pesquisa da agenda -->
+    {% block css %}{% endblock %}
+    {% block js %}{% endblock %}
+    <!-- app blog-->
+    {% block blog %} {% endblock blog %}
+    <!-- app cliente-->
+    {% block cliente %}{% endblock cliente %}
+    {% block financeiro %}  {% endblock financeiro %}
+    {% block diario %} {% endblock diario %}
+   
+</head>
+<body>
+<div id="wrapper">
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" style="margin-top:-12px;">
+                    <i class="fa fa-gavel fa-2x"></i> 
+                    Advocacia 
+                </a>
+            </div>
+            <!-- /.navbar-header -->
+            <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-messages">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <strong>John Smith</strong>
+                                    <span class="pull-right text-muted">
+                                        <em>Yesterday</em>
+                                    </span>
+                                </div>
+                                <div>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque eleifend...</div>
+                            </a>
+                        </li>
+                        
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Leia Todas as Mensagens</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-messages -->
+                </li>
+                
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="/blog/">
+                                <div>
+                                    <i class="fa fa-rss fa-fw"></i> Blog
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/blog/all/posts/">
+                                <div>
+                                    <i class="fa fa-list-ul" aria-hidden="true"></i> Lista De Postagens
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/blog/post/novo/">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> Adicionar Postagens
+                                    
+                                </div>
+                            </a>
+                        </li>
+                        
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>Veja Todos</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-user">
+                    {% if user.is_authenticated %}
+                     <li>
+                    
+                        <a href="#"><i class="fa fa-th fa-fw"></i> <strong>{{user.first_name}}</strong></a>
+                    </li>
+                        <li>
+                            <a href="/usuario/"><i class="fa fa-user fa-fw"></i> Usuarios</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/usuario/registro/"><i class="fa fa-user-plus fa-fw"></i> Add Usuarios</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                        <a href="/usuario/senha/"><i class="fa fa-lock fa-fw"></i> Alterar Senha</a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="/usuario/logout/"><i class="fa fa-sign-out fa-fw"></i> Sair</a>
+                        </li>
+                        {% else %}
+                            <a href=""></a>
+                        {% endif %}
+                    </ul>
+                    <!-- /.dropdown-user -->
+                </li>
+                <!-- /.dropdown -->
+                
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav text-center" id="side-menu">
+                        <li>
+                            <a href="/dashboard/">
+                                <i class="fa fa-home fa-2x"></i><br>Home
+                            </a>
+                        </li>
+                        <li >
+                            <a href="/agenda/">
+                                <i class="fa fa-clipboard fa-2x"></i><br>Agenda
+                            </a>
+                        </li>
+                        {% if perms.global_permissions.cadastro %}
+                        <li>
+                            <a href="/cliente/">
+                                <i class="fa fa-users fa-2x"></i><br>Clientes
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if perms.global_permissions.financeiro %}
+                        <li>
+                            <a href="/contas/pagar">
+                                <i class="fa fa-money fa-2x"></i><br>Financeiro
+                            </a>
+                        </li>
+                        {% endif %}
+                        {% if perms.global_permissions.processos %}
+                        <li>
+                            <a href="/processo/">
+                                <i class="fa fa-balance-scale fa-2x"></i><br>Processos
+                            </a>
+                        </li>
+                        {% endif %}
+                        <li>
+                            <a href="/diario/">
+                                <i class="fa fa-newspaper-o fa-2x"></i><br>Diário
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->
+        </nav>
+            <div id="page-wrapper">
+                <div class="row">
+                    <div class=" col-md-12"><br>    
+                        {% block conteudo %}
+                        {% endblock %}
+                    </div>       
+                </div>
+            </div>
+    </div>
+    {% block js_agenda %}{% endblock js_agenda %}
+    <script src="{% static "js/jquery.min.js" %}"></script>
+    {% block js_blog %} {% endblock js_blog %}
+    {% block js_cliente %} {% endblock js_cliente %}
+    {% block js_user %} {% endblock js_user %}
+    {% block js_financeiro %}{% endblock js_financeiro %}
+    {% block js_processo %} {% endblock js_processo %}
+    {% block js_diario %} {% endblock js_diario %}
+    <script src="{% static "js/modal_agenda.js" %}"></script>
+    <script src="{% static "js/bootstrap.min.js" %}"></script>
+</body>
+</html>

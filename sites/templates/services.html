@@ -1,0 +1,112 @@
+{% extends "base_site.html" %}
+{% load static %}
+{% block title %}
+	Serviços
+{% endblock title %}
+{% block container%}
+	
+	<div id="breadcrumb">
+		<div class="container">	
+			<div class="breadcrumb">							
+				<li><a href="index.html">Home</a></li>
+				<li>Serviços</li>			
+			</div>		
+		</div>	
+	</div>
+	
+	<div class="services">
+		<div class="container">
+			<h3>Serviços Oferecidos</h3>
+			<hr>
+			<div class="col-md-6">
+				<img src="{% static "images/services/advocacia.jpg"%}" class="img-responsive">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum erat 
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque</p>
+			</div>
+			
+			<div class="col-md-6">
+				<div class="media">
+					<ul>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-pencil"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Civil e contratos</h4>
+								<p>Equipes especializadas em promover assessoria nos diversos ramos do Direto Civil, atuando em consultoria, realizando opiniões ou pareceres jurídicos.</p>
+							</div>
+						</li>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-book"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Contencioso Estratégico e em Escala</h4>
+								<p>Com equipe multidisciplinar, o escritório oferece a seus clientes amparo em todas as esferas do direito ambiental, atuando, assim, na consultoria Preventiva e Planejamento Ambiental, mediante apoio jurídico completo.</p>
+							</div>
+						</li>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-gavel"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Penal</h4>
+								<p> Oferecemos consultoria jurídica na esfera criminal para pessoas físicas e jurídicas, com o propósito de evitar demandas penais envolvendo delitos relacionados à atividade empresarial, seja para defender os seus interesses negociais ou para preservar a integridade da imagem corporativa que projeta no mercado. .</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>	
+	
+	<div class="sub-services">
+		<div class="container">
+			<div class="col-md-6">
+				<div class="media">
+					<ul>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-briefcase"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Trabalhista</h4>
+								<p>Atuamos na esfera preventiva, em âmbito consultivo e contencioso, com foco na eliminação ou mitigação dos riscos trabalhistas. Para tanto, promove a avaliação e a adequação dos procedimentos internos da organização empresarial.</p>
+							</div>
+						</li>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-book"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Ações Indenizatórias</h4>
+								<p>O Escritório dispõe de carteira diversificada de créditos vencidos decorrentes de relações contratuais, títulos de crédito, operações de financiamento, créditos imobiliários, além de célula específica para ressarcimento de indenizações pagas e cobrança de prêmios em atraso..</p>
+							</div>
+						</li>
+						<li>
+							<div class="media-left">
+								<i class="fa fa-rocket"></i>						
+							</div>
+							<div class="media-body">
+								<h4 class="media-heading">Renovações Implantadas</h4>
+								<p>atua no planejamento e estruturação de negócios e atividades empresariais por meio de consultoria baseada no profundo entendimento da estratégia e nos principais fatores críticos de seus clientes, quais sejam: constituição de sociedades comerciais.</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+						
+			<div class="col-md-6">
+				<img src="{% static "images/services/empresas.jpg"%}" class="img-responsive">
+				<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus interdum erat 
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque
+				libero, pulvinar tincidunt leo consectetur eget. Curabitur lacinia pellentesque</p>
+			</div>
+		</div>
+	</div>
+	
+	
+{%endblock%}

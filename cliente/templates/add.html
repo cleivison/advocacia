@@ -1,0 +1,426 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+    Novo Cliente
+{% endblock title %}
+{% block cliente %}
+    <link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+    <script type="text/javascript" src="{% static "js/jquery.formset.js"%}"></script>
+{% endblock %}
+{% block conteudo %}
+        <a href="/cliente/">
+            <button id="edit_person" type="button" class="btn btn-success pull-right">
+                <span class="fa fa-arrow-left"></span> Voltar
+            </button>
+        </a>
+        <h2><i class="fa fa-users"></i>  Cliente</h2>
+        <hr>
+        <form method="post"enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="row"> 
+                <div class="col-md-3"> 
+                    <div class="form-group">
+                        <label for="tNome" class=" control-label">Nome</label>
+                        {{cliente.nome}}
+                        {{ cliente.errors.nome }}
+                    </div>
+                </div>
+                <div class="col-md-2"> 
+                    <div class="form-group">
+                        <label for="tNome" class=" control-label">Cpf</label>
+                        {{cliente.cpf}}
+                        {{ cliente.errors.cpf }}
+                    </div>
+                </div>
+                <div class="col-md-2"> 
+                    <div class="form-group">
+                      <label for="tNasc" class=" control-label">Data de Nascimento</label>
+                        {{cliente.nascimento}}
+                        {{ cliente.errors.nascimento }}
+                    </div>
+                </div>
+                 <div class="col-md-2"> 
+                    <div class="form-group">
+                      <label for="tNasc" class=" control-label">Apelido</label>
+                        {{cliente.apelido}}
+                        {{ cliente.errors.apelido}}
+                    </div>
+                </div>
+                <div class="col-md-3"> 
+                    <div class="form-group">
+                        <label for="tRg" class=" control-label">E-mail</label>
+                        {{cliente.email}}
+                        {{cliente.errors.email}}
+                    </div>
+                </div>
+            </div>
+            <div class="row">  
+                     <div class="col-md-2"> 
+                         <div class="form-group">
+                           <label for="tRua" class=" control-label">Rua</label>
+                            {{cliente.rua}}
+                            {{cliente.errors.rua}}
+                          </div>
+                    </div>
+                    <div class="col-md-2"> 
+                        <div class="form-group">
+                            <label for="tbairro" class="  control-label">Bairro</label>
+                            {{cliente.bairro}}
+                            {{cliente.errors.bairro}}
+                        </div>
+                    </div>
+                    <div class="col-md-2"> 
+                        <div class="form-group">
+                        <label for="tSerie" class="  control-label">Cep</label>
+                        {{cliente.cep}}
+                        {{cliente.errors.cep}}
+                      </div>
+                    </div>
+                    <div class="col-md-2"> 
+                        <div class="form-group">
+                        <label for="tcliente" class="  control-label">Uf</label>
+                        {{cliente.uf}}
+                        {{cliente.erros.uf}}
+                      </div>
+                    </div>
+                    <div class="col-md-2"> 
+                        <div class="form-group">
+                        <label for="tcomple" class="  control-label">Complemento</label>
+                        {{cliente.complemento}}
+                        {{cliente.errors.complemento}}
+                      </div>
+                    </div>
+                     <div class="col-md-2"> 
+                       <div class="form-group-inline">
+                            <label for="tsex" class="  control-label">Sexo</label>
+                           {{cliente.sexo}}
+                               <style>
+                                   #id_main-sexo{
+                                    list-style:none;
+                                   }
+                               </style>
+                        </div>
+                    </div>  
+            </div>
+            <h2><i class="fa fa-phone"></i> Telefones </h2>
+            <hr>
+            <div class="row"> 
+                <div class="col-md-4"> 
+                        <div class="form-group">
+                        <label for="tcliente" class="  control-label">Telefone Principal</label>
+                          {{cliente.numero1}}
+                          {{cliente.errors.numero1}}
+                      </div>
+                    </div>
+                     <div class="col-md-4"> 
+                       <div class="form-group-inline">
+                            <label for="tsex" class="  control-label">Telefone 1</label>
+                             {{cliente.numero2}}
+                             {{cliente.errors.numero2}}
+                          </div>
+                    </div>  
+            </div>
+          <h2><i class="fa fa-file-text"></i> Documentos <a class="btn btn-info btn-xs" id="add-item"title="adicionar documentos"><i class="fa fa-plus"></i></a></h2>
+                  {{ form.management_form }}
+              <div class="row">
+                  <div id="order" class="form-inline form-group">
+                      {% for doc in form %}
+                          <div id="item-{{ forloop.counter0 }}"style="margin-left:20px;">
+                              {{ doc }}
+                          </div>
+                      {% endfor %}
+                  </div>
+              </div>
+          <hr>
+            <h2><i class="fa fa-briefcase"></i> Trabalhista &nbsp;&nbsp;<a href="javascript:;"class="btn btn-info btn-xs expander" title="adicionar documentos"><i class="fa fa-angle-down"></i></a></h2>
+            <hr>
+            {% for trabalhista in trabalhista.management_form %}
+                {{ trabalhista }}
+            {% endfor %}
+        {% for trabalhista in trabalhista %}
+        <div id="trabalhista" style="display:none;">
+            <div class="row">               
+                    <div class="col-md-4"> 
+                        <div class="form-group">
+                            <label for="ctps" class="  control-label">Ctps</label>
+                             {{trabalhista.ctps}}
+                             {{trabalhista.errors.ctps}}
+                             {{trabalhista.id}}
+                          </div>
+                    </div>
+                    <div class="col-md-4"> 
+                        <div class="form-group">
+                            <label for="admissao" class="  control-label">Admissão</label>
+                             {{trabalhista.admissao}}
+                              {{trabalhista.errors.admissao}}
+                          </div>
+                    </div>
+                    <div class="col-md-4"> 
+                    <div class="form-group">
+                        <label for="tdesmissao" class=" control-label">Demissão</label>
+                       {{trabalhista.demissao}}
+                       {{trabalhista.errors.demissao}}
+                      </div>
+                    </div>
+            </div>
+            <div class="row"> 
+                    <div class="col-md-4"> 
+                    <div class="form-group">
+                        <label for="trecisao" class=" control-label">Recisão</label>
+                       {{trabalhista.recisao}}
+                       {{trabalhista.errors.recisao}}
+                    </div>
+                    </div>
+                   <div class="col-md-4"> 
+                    <div class="form-group">
+                        <label for="tSalario" class=" control-label">Salário</label>
+                       {{trabalhista.salario}}
+                       {{trabalhista.errors.salario}}
+                      </div>
+                    </div>
+                    <div class="col-md-4"> 
+                          <div class="form-group">
+                              <label for="tFuncao" class="  control-label">Função</label>
+                                {{trabalhista.funcao}}
+                                {{trabalhista.errors.funcao}}
+                            </div>
+                     </div>
+                </div>
+        </div>
+                <h2><i class="fa fa-clock-o"></i> Horários e Pontos</h2>
+                <hr>
+                <div class="row">
+                     <div class="col-md-3"> 
+                          <div class="form-group">
+                              <label for="tEntra" class=" control-label">Entrada Manhã</label>                              
+                              {{trabalhista.entrada_manha}}
+                              {{trabalhista.errors.entrada_manha}}
+                            </div>
+                    </div>  
+                    <div class="col-md-3"> 
+                            <div class="form-group">
+                                <label for="tsaida" class=" control-label">Saida Manhã</label>
+                                {{trabalhista.saida_manha}}
+                                {{trabalhista.errors.saida_manha}}
+                            </div>
+                    </div> 
+                     <div class="col-md-3"> 
+                            <div class="form-group">
+                                <label for="TentraT" class=" control-label">Entrada Tarde</label>
+                                {{trabalhista.entrada_tarde}}
+                                 {{trabalhista.errors.entrada_tarde}}
+                            </div>
+                    </div>  
+                    <div class="col-md-3"> 
+                            <div class="form-group">
+                                <label for="tSd" class=" control-label">Saida Tarde</label>
+                                {{trabalhista.saida_tarde}}
+                                {{trabalhista.errors.saida_tarde}}
+                            </div>
+                    </div> 
+             </div>
+               
+                <div class="row">
+                     <br><div class="col-md-6">
+                      <div class="col-md-2">
+                         <b>Dias De Trabalho:</b>
+                      </div>
+                        <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-seg" class=" control-label">Seg</label>
+                              <div>
+                                  {{trabalhista.seg}}
+                              </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-ter" class=" control-label">Ter</label>
+                                <div>
+                                  {{trabalhista.ter}}
+                               </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-qua" class=" control-label">Qua</label>
+                                <div>
+                                    {{trabalhista.qua}}
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-qui" class="  control-label">Qui</label>
+                                <div>
+                                    {{trabalhista.qui}}
+                               </div>
+                            </div>
+                        </div>
+                        <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-sex" class="  control-label">Sex</label>
+                                <div>
+                                    {{trabalhista.sex}}
+                               </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-sab" class="  control-label">Sab</label>
+                                <div>
+                                    {{trabalhista.sab}}
+                               </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1"> 
+                           <div class="form-group-inline">
+                                <label for="id_trabalhista_set-0-dom" class="  control-label">Dom</label>
+                                <div>
+                                    {{trabalhista.dom}}
+                               </div>
+                              </div>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-3"> 
+                       <div class="form-group-inline">
+                            <label for="tDate" class="  control-label">Obs de Horário</label>
+                            <div>
+                                {{trabalhista.obs_semana}}
+                                {{trabalhista.errors.obs_semana}}
+                           </div>
+                          </div>
+                    </div>
+                    <div class="col-md-2"> 
+                            <div class="form-group-inline">
+                            <label for="id_trabalhista_set-0-hor_con" class="  control-label">Controle de Horário</label>
+                            <div>
+                                {{trabalhista.hor_con}}
+                                {{trabalhista.errors.hor_con}}
+                            </div>
+                          </div>
+                    </div>
+                </div>
+                <div class="row">  
+                    <div class="col-md-4"> 
+                        <div class="form-group-inline">
+                            <label for="tDate" class="  control-label">Ponto</label>
+                            <div>
+                                {{trabalhista.ponto}}
+                                {{trabalhista.errors.ponto}}
+                            </div>
+                          </div>
+                    </div>
+                    <div class="col-md-5"> 
+                            <div class="form-group-inline">
+                                <label for="tDate" class="  control-label">Obs do Ponto</label>
+                                <div>
+                                    {{trabalhista.obs_ponto}}
+                                    {{trabalhista.errors.obs_ponto}}
+                                </div>
+                            </div>
+                     </div>
+                    <div class="col-md-3"> 
+                            <div class="form-group-inline">
+                            <label for="ponto" class="  control-label">Quem marcava ponto</label>
+                                {{trabalhista.pergunta1}}  
+                                {{trabalhista.errors.pergunta1}}
+                          </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-3"> 
+                        <div class="form-group-inline">
+                           <br><label for="id_trabalhista_set-0-pergunta2" class="  control-label">Marcava No Mesmo Horário</label>
+                            <div>
+                                {{trabalhista.pergunta2}}
+                                {{trabalhista.errors.pergunta2}}
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-md-3"> 
+                        <div class="form-group-inline">
+                            <br><label for="id_trabalhista_set-0-pergunta3" class="  control-label">Marcava o Horário Correto</label>
+                            <div>
+                                {{trabalhista.pergunta3}}
+                                {{trabalhista.errors.pergunta3}}
+                            </div>
+                          </div>
+                        </div>
+                         <div class="col-md-3"> 
+                        <div class="form-group-inline">
+                            <br><label for="id_trabalhista_set-0-hora_intineri" class="  control-label">Horário Intineri</label> 
+                            <div>
+                                {{trabalhista.hora_intineri}}
+                                {{trabalhista.errors.hora_intineri}}
+                            </div>
+                          </div>
+                        </div>
+                    </div><br>
+                {% endfor %}
+                    <button type="submit" class="btn btn-primary">
+                        <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> Salvar
+                    </button><br><br> 
+        </form>
+             <script>
+            jQuery(function($){
+                /*funcao que some com a div pesquisa*/
+                $('.expander').live('click', function () {
+                    $('#trabalhista').slideToggle();
+                });
+               
+            });
+              $(document).ready(function(){
+                  $("#add-item").click(function(ev) {
+                      ev.preventDefault();
+                      var count = $('#order').children().length;
+                      var tmplMarkup = $("#item-order").html();
+                      var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                      $("div#order").append(compiledTmpl);
+
+                      // update form count
+                      $('#id_product-TOTAL_FORMS').attr('value', count + 1);
+
+                      // some animate to scroll to view our new form
+                      $('html, body').animate({
+                          scrollTop: $("#add-item").position().top-200
+                      }, 800);
+                  });
+              });
+          </script>
+          <script type="text/html" id="item-order">
+              <div id="item-__prefix__" style=" margin-left: 20px;">
+                      {{ form.empty_form }}
+              </div>
+          </script>
+          <script type="text/javascript"> 
+
+            jQuery.noConflict();
+            jQuery(function($){
+               $("#id_trabalhista_set-0-entrada_manha").mask("99:99");
+               $("#id_trabalhista_set-0-saida_manha").mask("99:99");
+               $("#id_trabalhista_set-0-entrada_tarde").mask("99:99");
+               $("#id_trabalhista_set-0-saida_tarde").mask("99:99");
+               $("#id_main-cpf").mask("999.999.999-99");
+               $("#id_main-cep").mask("99999-999"); 
+               $("#id_main-numero1").mask("(099) 9999-9999");
+               $("#id_main-numero2").mask("(099) 9999-9999");
+            });
+             jQuery(function($){
+               $("#id_main-nascimento").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+               $("#id_trabalhista_set-0-admissao").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+               $("#id_trabalhista_set-0-demissao").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+               $("#id_trabalhista_set-0-recisao").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose: true});
+            });
+            jQuery(function($){
+            $('#id_trabalhista_set-0-salario').priceFormat({
+                prefix: 'R$ ',
+                centsSeparator: ',',
+                thousandsSeparator: '.'
+                                       });   
+            });
+          </script> 
+{% endblock %}

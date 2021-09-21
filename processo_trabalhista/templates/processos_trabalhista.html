@@ -1,0 +1,48 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+	Lista De Processos
+{% endblock title %}
+{% block cliente %}
+    <link href=" {% static "js/jquery-uis/jquery-ui.css" %}"rel="stylesheet">
+    <script src="{% static "js/jquery-uis/jquery-ui.js" %}"type="text/javascript"></script>
+{% endblock %}
+{% block css %}
+    <link href=" {% static "js/selects/select2.css" %}"rel="stylesheet">
+{% endblock %}
+
+{# Adding select2 js #}
+{% block js %}
+    <script src="{% static "js/selects/select2.min.js" %}"></script>
+{% endblock %}
+
+{% block conteudo %}
+
+
+    <form action="/processo_trabalhista/add/" method="POST" role="form">
+        {% csrf_token %}
+        Numero Processo: <input type="text" name="n_processo">
+        Ano do Processo: <input type="text" name="ano_processo">
+        VVV:<input type="text" name="VVV">
+        RR:<input type="text" name="RR">
+        SS:<input type="text" name="SS">
+        <b>Clientes:</b>
+        <select name="clientes">
+								    	<option value=""></option>
+								    {% for clientes in cliente %}
+	  									<option value={{clientes.id}}>{{clientes.nome }} - {{clientes.cpf}}</option>
+	  								{%endfor%}
+	  	</select>
+        <b>Advogado:</b>
+	  								<select name="advogados" >
+	  									<option value=""></option>
+	  								{% for usuarios in users %}
+	  									<option value={{usuarios.id}}>{{usuarios}}</option>
+	  								{%endfor%}
+	  								</select>
+        <button type="submit">Buscar</button>
+    </form>
+{% endblock conteudo %}
+{% block js_processo %}
+    <script src="{% static "js/processo.js" %}"></script>
+{% endblock js_processo %}

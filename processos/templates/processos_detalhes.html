@@ -1,0 +1,183 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+   Detalhes Do Processo
+{% endblock title %}
+{% block conteudo %}
+    <div class="col-md-1"></div>
+    <div class="col-lg-12">
+            <div class="panel panel-primary">
+                <div class="panel-heading">                
+                    <i class="fa fa-legal fa-fw"></i> PROCESSO                        
+                    <a class="btn btn-danger btn-xs"  href="/contas/add_receber/{{processo.id}}/"><i class="fa fa-money fa-fw"></i>   Conta </a>                      
+                </div>
+                <!-- /.panel-heading -->
+                    <div class="panel-body">
+                        <div class="list-group">
+                            <li href="#" class="list-group-item ">
+                                 <b>Cliente:</b>
+                                    <span class="pull-right text-muted large col-md-6"><b>{{processo.cliente }}</b>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item ">
+                                 <b>Advogado:</b>
+                                    <span class="pull-right text-muted large col-md-6"><b>{{processo.usuario }}</b>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item ">
+                                 <b>Numero do acervo:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.numero_acervo }}</i>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item ">
+                                 <b>Numero do processo:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.numero_processo }}</i>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                 <b>Data de abertura:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{ processo.data_abertura  }}</i>
+                                 </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Comarca:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i> {{processo.comarca }}</i>
+                                </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Assistencia juridica:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.assistencia_judiciaria}}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Natureza:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{ processo.natureza}}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Classe Processual:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.classe_processual }}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Assuntos:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.assuntos }}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Observação:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i> {{processo.observacao}}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Valor Da Ação:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i> R$ {{processo.valor_acao}}</i>
+                                    </span>
+                            </li>
+                            <li href="#" class="list-group-item">
+                                <b>Status Atual:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.status_atual}}</i>
+                                    </span>
+                            </li>
+                             <a href="#" class="list-group-item">
+                                <b>Status Processo:</b>
+                                    <span class="pull-right text-muted large col-md-6"><i>{{processo.status_processo}}</i>
+                                    </span>
+                            </a>
+                        </div>
+                            <div class="panel panel-success">
+                                <div class="panel-heading">
+                                    Partes
+                                </div>
+                                <div class="panel-body">
+                                <div class="list-group">
+                                {% for parte in partes %}   
+                                    <li href="#" class="list-group-item">
+                                       <b>{{parte.parte }}:</b>
+                                            <span class="pull-right text-muted small  col-md-6"><i>{{parte.descricao }}</i>
+                                        </span>
+                                    </li>                                  
+                                    {% endfor %}
+                                    </div>                               
+                                </div>
+                            </div>
+                             <div class="panel panel-default">
+                                <div class="panel-heading">
+                                     Distribuição
+                                </div>
+                        <!-- /.panel-heading -->
+                            <div class="panel-body">
+                                <div class="list-group">
+                                    {% for distribuicaos in distribuicao %}
+                                        <li href="#" class="list-group-item">
+                                             <b>Realizada:</b>
+                                                <span class="pull-right text-muted large  col-md-6"><i>{{distribuicaos.realizada}}</i>
+                                            </span>
+                                        </li> 
+                                        <li href="#" class="list-group-item">
+                                             <b>Tipo de Distribuição:</b>
+                                                <span class="pull-right text-muted large  col-md-6"><i> {{distribuicaos.tipo_distribuicao}}</i>
+                                            </span>
+                                        </li> 
+                                        <li href="#" class="list-group-item">
+                                             <b>Comarca:</b>
+                                                <span class="pull-right text-muted large  col-md-6"><i>{{distribuicaos.comarca}}</i>
+                                            </span>
+                                        </li> 
+                                        <li href="#" class="list-group-item">
+                                             <b>Secretaria:</b>
+                                                <span class="pull-right text-muted large  col-md-6"><i>{{distribuicaos.secretaria}}</i>
+                                            </span>
+                                        </li> 
+                                        <li href="#" class="list-group-item">
+                                             <b>Motivo:</b>
+                                                <span class="pull-right text-muted small  col-md-6"><i>{{distribuicaos.motivo}}</i>
+                                            </span>
+                                        </li>
+                                        <br>
+                                    {%endfor%}
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="panel panel-warning">
+                                <div class="panel-heading">
+                                    Movimentos
+                                </div>
+                        <!-- /.panel-heading -->
+                         
+                            <div class="panel-body">
+                                <div class="list-group">
+                                {% for movimentos in movimento %}
+                                    <li href="#" class="list-group-item">
+                                         <b>Data de movimentação:</b>
+                                            <span class="pull-right text-muted large  col-md-6"><i>{{movimentos.data_movimentacao}}</i>
+                                        </span>
+                                    </li> 
+                                    <li href="#" class="list-group-item">
+                                        <b>Movimento:   
+                                            <span class="pull-right text-muted large  col-md-6">
+                                            <i> {{movimentos.descricao}}</i>
+                                        </b><br><br><br><br>
+                                        </span>
+                                    </li> 
+                                    <br>
+                                     {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            <!-- /.list-group -->
+                            <div class="col-md-4">
+                                <a href="/processo/" class="btn btn-success btn-block"> <i class="fa fa-arrow-left fa-fw"></i> Voltar</a>
+                            </div>
+                            <div class="col-md-4">
+                                <a href="/processo/deletar/{{processo.id}}/"class="btn btn-danger btn-block"><i class="fa fa-trash-o fa-fw"></i> Deletar</a>
+                            </div>
+                             <div class="col-md-4">
+                                <a href="/processo/{{processo.id}}/"class="btn btn-warning btn-block"><i class="fa fa-pencil-square-o fa-fw"></i> Atualizar</a>
+                            </div>
+                    </div>
+                        <!-- /.panel-body -->
+             </div>
+    </div>
+{% endblock %}

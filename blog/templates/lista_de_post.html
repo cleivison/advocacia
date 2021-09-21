@@ -1,0 +1,100 @@
+{% extends "base_sistema.html" %}
+{% load static %}
+{% block title %}
+	Postagens
+{% endblock title %}
+{% block conteudo %}
+	<div class="row">
+        <div class="col-lg-12">
+        	<a href="/blog/post/novo/" class="btn btn-primary pull-right h2">
+					<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Postagens
+				</a>
+            <h1 class="page-header">
+            	<i class="fa fa-share-square"></i> Postagens
+            </h1>
+        </div>
+    </div>
+    <div class="table-responsive">
+		{% if posts %} 
+			<table class="table table-striped table-hover">
+				<thead >
+					<tr class="table table-bordered">
+						<th>Cod</th>
+						<th><i class="fa fa-user" aria-hidden="true"></i> Titulo</th>
+						<th><i class="fa fa-user" aria-hidden="true"></i> Autor</th>
+						<th><i class="fa fa-calendar" aria-hidden="true"></i>  Data De Criação</th>
+						<th><i class="fa fa-cog " aria-hidden="true"></i> AÇÕES</th>
+					</tr>
+				</thead>
+
+				<tbody>
+				{% for post in posts %}
+					<tr>
+						<td> {{ forloop.counter}} </td>
+						<td><a href=""> {{post.title}}</a></td>
+						<td> {{post.author}}</td>
+						<td>{{ post.published_date|date:"D,d,M,Y" }}</td>
+						<td>
+							<a href="{% url "post_edit" post.id %}" class="btn btn-info">
+								<span class="glyphicon glyphicon-edit" aria-hidden="true"></span> 
+							</a>
+							<button type="button"class="btn btn-danger  js-delete-post"data-url="{% url 'excluir_post' post.id %}"><span class="glyphicon glyphicon-trash"></span> 
+							</button>
+						</td>
+					</tr>
+					 <!--deletar-->
+                    <div class="modal fade" id="delete-post" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <form method="post"action="{% url "excluir_post" post.id %}" >
+                                    {% csrf_token %}
+                                    <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Fechar"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="modalLabel"><i class="fa fa-trash" aria-hidden="true"></i> Deletar Postagem</h4>
+                                    </div>
+                                    <div class="modal-body">
+                                         <p class="lead">Deseja Realmente Deletar ?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button class="btn btn-success" type="submit">Sim</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+				{% endfor %}	
+				</tbody>
+			</table>
+		{% else %}
+			<h2>Sem Registros.</h2>
+		{% endif %}
+	
+		<div>
+			<h3>{{ posts |length }} post{{ posts |length|pluralize }}</h3>
+		</div>
+		</div>
+			
+{% endblock conteudo %}
+{% block js_blog %}
+	<script type="text/javascript">
+	 /*delete*/
+                jQuery(document).ready(function($){
+                      $(".js-delete-post").click(function () {
+                        $.ajax({
+                          url: '/blog/deletar/post(?P<pk>\d+)/',
+                          type: 'get',
+                          dataType: 'json',
+                          beforeSend: function () {
+                            jQuery.noConflict(); 
+                            $("#delete-post").modal("show");
+                          },
+                          success: function (data) {
+                            $("#delete-post .modal-content").html(data.html_form);
+                          }
+                        });
+                      });
+
+                    });
+	</script>
+{% endblock js_blog %}

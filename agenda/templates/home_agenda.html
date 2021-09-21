@@ -1,0 +1,204 @@
+{% extends "base_sistema.html" %}
+{% load staticfiles %}
+{% block title %}
+    Lista De Eventos
+  {% endblock title %}
+{% block cliente %}
+    <link href="{% static "css/admin/calendario.min.css" %}" rel="stylesheet" >
+{% endblock %}
+{% block conteudo %}
+    <div class="row">
+        <div class="col-lg-12">
+            <a href="{% url "novo_evento" %}" class="btn btn-primary pull-right h2"style="margin-left:5px;">Adicionar Compromisso <i class="fa fa-plus" aria-hidden="true"></i></a>
+            <h2 class="page-header">
+                <i class="fa fa-calendar-o" aria-hidden="true"></i> Agenda De Compromissos</h2>
+            </h2>
+        </div>
+    </div>
+    <div class="row"id="minhaDiv" >
+            <div class="col-md-2">                      
+                <input type="text" name="data_ini" id="data_ini" class="form-control " data-language="pt"placeholder="Data Inicial"  >
+            </div>  
+            <div class="col-md-2">                      
+                <input type="text" name="data_fin"  id="data_fin" class="form-control " data-language="pt"placeholder="Data Final" value="">
+            </div>
+            <div class="col-md-3">
+                <input type="text" name="descricao" id="descricao" class="form-control" placeholder="Digite a Sua Pesquisa">
+            </div>
+            <div class="col-md-3">
+                <select name="pesquisa" id="pesquisa" class="form-control">
+                    <option value='cliente'>Cliente</option>
+                    <option value='funcionario'>Funcionario</option>
+                </select>
+            </div>
+            <div class="col-md-1">
+                <button class="btn btn-success" id="enviar" type="submit"><i class="fa fa-search" aria-hidden="true"></i> Filtrar</button></p>
+            </div>
+
+    </div>
+    <div class="table-responsive ">
+        {% if eventos %} 
+           <table class="table table-striped"cellspacing="0" cellpadding="0"id="desaparecer_table">
+                <thead>
+                    <tr class="table table-bordered">
+                        <th>Nº</th>
+                        <th>Nome <i class="fa fa-user" aria-hidden="true"></i></th>
+                        <th>Data <i class="fa fa-calendar" aria-hidden="true"></i></th>
+                        <th>Hora <i class="fa fa-clock-o" aria-hidden="true"></i></th>
+                        <th>Telefone <i class="fa fa-phone" aria-hidden="true"></i></th>
+                        <th>Endereço <i class="fa fa-map-marker" aria-hidden="true"></i> 
+                        </th>
+                        <th class="actions">Ações <i class="fa fa-cog" aria-hidden="true"></i></th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for evento in eventos %} 
+                    <tr>
+                        <td>{{evento.id_evento}}</td>
+                        <td><a href="{% url "detalhes_evento" evento.id_evento %}"> {{evento.titulo}}</a></td>
+                        <td>{{evento.data|date:"D,d,M,Y"}}</td>
+                        <td>{{evento.hora}}</td>
+                        <td>{{evento.telefone}}</td>
+                        <td>{{evento.endereco}}</td>
+                        <td class="actions">
+                            <a class="btn btn-success btn-xs" href="{% url "detalhes_evento" evento.id_evento %}">Visualizar</a>
+                            <a class="btn btn-warning btn-xs" href="/agenda/atualizar/{{evento.id_evento}}/">Editar</a>
+                            <a class='btn btn-danger btn-xs delete_agenda-js' 
+                            id="{{evento.id_evento}}" >Excluir</a>
+                        </td>
+                    </tr>
+                    <!--deletar-->
+                    <div class="modal fade" id="delete-agenda-modal" >
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                
+                            </div>
+                        </div>
+                    </div>
+                        <!--tabela com o filtros ajax-->
+                        <div id="filtro">
+                        </div>
+                {% endfor %}    
+                </tbody>
+            </table>
+        {% else %}
+            <h2 class="alert alert-warning">Sem eventos cadastrados.</h2>
+        {% endif %}
+            <div>
+                <h3>{{eventos|length }} Evento{{eventos|length|pluralize }}</h3>
+                <h4><b>Total:</b> {{ eventos.paginator.count }} Evento{{ eventos.paginator.count|pluralize }}</h4>
+            </div>
+        </div>
+            
+        <div class="col-md-12">
+            <nav class="text-center">
+                <ul class="pagination">
+                    <li>
+                        {% if eventos.has_previous %}
+                        <a href="?page={{ eventos.previous_page_number }}" aria-label="Previous">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                        {% endif %}
+                    </li>
+                    {% for pg in eventos.paginator.page_range %}
+                    {% if eventos.number == pg %}
+                        <li class="active"><a href="?page={{ pg }}">{{ pg }}</a></li>
+                    {% else %}
+                        <li><a href="?page={{ pg }}{% if request.GET.search_box %}
+                        &search_box={{ request.GET.search_box }}{% endif %}">{{ pg }}</a></li>
+                    {% endif %}
+                    {% endfor %}
+                    <li>
+                      {% if eventos.has_next %}
+                        <a href="?page={{ eventos.next_page_number }}" aria-label="Next">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                        {% endif %}
+                    </li>
+                </ul>
+            </nav>
+            <script type="text/javascript">
+            jQuery(function($){
+                /*funcao que some com a div pesquisa*/
+                $('.expander').live('click', function () {
+                    $('#minhaDiv').slideToggle();
+                });
+               $("#data_ini").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose:true});
+               $("#data_fin").mask("99/99/9999").datepicker({dateFormat: 'dd/mm/yyyy',autoClose:true});
+            });
+            </script>
+            <script type="text/javascript">
+                $(document).ready(function(){
+                $('#enviar').click(function(){
+                    var data_ini = $("#data_ini").val();
+                    var data_fin = $("#data_fin").val();
+                    var pesquisa = $("#pesquisa").val();
+                    var descricao = $("#descricao").val();
+                    var resultado = "<table class='table table-striped' cellspacing='0' cellpadding='0'><thead><tr class='table table-bordered'><th>Nº</th><th>nome <i class='fa fa-user' aria-hidden='true'></i></th><th>Data <i class='fa fa-calendar' aria-hidden='true'></i></th><th>Hora <i class='fa fa-clock-o' aria-hidden='true'></i></th><th>Telefone <i class='fa fa-phone' aria-hidden='true'></i></th><th>Endereço <i class='fa fa-map-marker' aria-hidden='true'></i> </th><th class='actions'>Ações <i class='fa fa-cog' aria-hidden='true'></i></th></tr></thead><tbody>";
+                    $.ajax({
+                            type: "GET",
+                            data: {
+                              'data_ini': data_ini,
+                              'data_fin': data_fin,
+                              'pesquisa': pesquisa,
+                              'descricao':descricao
+                            },
+                            url: '/agenda/',
+                            dataType: 'json',
+                            success: function (eventos) {
+                                $("#desaparecer_table").fadeTo("slow",0.3, function(){
+                                    $(this).remove();
+                                })
+
+                                $.each(eventos, function(chave, valor){
+                                    resultado += "<tr><td>";
+                                    resultado += valor["pk"] + "</td> ";
+                                    resultado += "<td><a href="+ valor["pk"] +">";
+                                    resultado += valor["fields"]["titulo"]+"</a></td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["data"]+"</td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["hora"]+"</td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["telefone"]+"</td>";
+                                    resultado += "<td>";
+                                    resultado += valor["fields"]["endereco"]+"</td>";
+                                    resultado+= "<td class='actions'> <a class='btn btn-success btn-xs' href="+ valor["pk"] +">Visualizar</a> <a class='btn btn-warning btn-xs' href='/agenda/atualizar/"+ valor["pk"] +"/'>Editar</a> <a class='btn btn-danger btn-xs delete_agenda-js' id="+ valor["pk"] +">Excluir</a></td></tr>"
+                                });
+                                resultado += "</tbody></table>";
+                                $("#filtro").html(resultado);
+                                /*modal delete*/
+                                    jQuery(document).ready(function($){
+                                      $(".delete_agenda-js").click(function () {
+                                        var btn = $(this);
+                                        $.ajax({
+                                          url: '/agenda/delete/'+btn.attr("id")+'/',
+                                          type: 'GET',
+                                          dataType: 'json',
+                                          beforeSend: function () {
+                                            jQuery.noConflict(); 
+                                            $("#delete-agenda-modal").modal("show");
+                                          },
+                                          success: function (data) {
+                                            $("#delete-agenda-modal .modal-content").html(data.html_form);
+                                          }
+                                        });
+                                      });
+
+                                    });
+                            },
+                            error: function() {
+                                //inserir uma msg de erro mais elegante
+                                alert("Ocorreu um erro ao carregar os dados.");
+                            }
+                    });
+
+                });
+            });
+            </script>
+        </div>
+{% endblock conteudo %}
+{% block js_agenda %}
+    <script src="{% static "js/datepicker.min.js" %}"></script>
+    <script src="{% static "js/datepicker.pt.js" %}"></script>
+{% endblock js_agenda %}
